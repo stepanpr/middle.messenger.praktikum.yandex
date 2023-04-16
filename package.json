@@ -1,0 +1,34 @@
+{
+    "name": "yandex_chat",
+    "version": "1.0.0",
+    "description": "yandex_practicum/messenger",
+    "browserslist": "> 0.5%, last 2 versions, not dead",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "parcel ./static/index.html -p 3001",
+        "build": "parcel build ./static/index.html --no-cache",
+        "start": "parcel --port 3000 ./static/index.html --open"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/stepanpr/yandex_chat.git"
+    },
+    "keywords": [],
+    "author": "Stepan Pribytko",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/stepanpr/yandex_chat/issues"
+    },
+    "homepage": "https://github.com/stepanpr/yandex_chat#readme",
+    "devDependencies": {
+        "@parcel/transformer-less": "^2.8.3",
+        "express": "^4.18.2",
+        "parcel": "^2.8.3",
+        "parcel-transformer-hbs": "^1.0.4",
+        "@parcel/transformer-inline-string": "^2.8.3",
+        "@parcel/transformer-sass": "^2.8.3"
+    },
+    "engines": {
+        "node": ">= 12.0.0"
+    }
+}

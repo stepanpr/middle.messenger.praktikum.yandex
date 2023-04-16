@@ -1,0 +1,22 @@
+{{#if isMyMessage}}
+    <li class='is-my-message'>
+        {{#if image}}
+            <img class='is-my-message__attachment-image' src={{image}} />
+        {{/if}}
+        <p>{{text}}</p>
+        <span class='is-my-message__info'>
+            <img class='delivered-icon' src={{delivered_icon}} />
+            <span class='is-my-message__time'>{{time}}</span>
+        </span>
+    </li>
+{{else}}
+    <li class='message'>
+        {{#if image}}
+            <img src={{image}} />
+        {{/if}}
+        <p>{{text}}</p>
+        <span class='message__info'>
+            <span class='message__time'>{{time}}</span>
+        </span>
+    </li>
+{{/if}}

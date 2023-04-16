@@ -1,0 +1,32 @@
+<div class='register-container'>
+    <form class='register-form'>
+        <h3 class='register-form__title'>Регистрация</h3>
+        <div class='register-form__inputs'>
+
+            <label class='input__label' for='email'>Почта</label>
+            <input type='email' id='email' name='email' class='register-form__input' />
+
+            <label class='input__label' for='login'>Логин</label>
+            <input type='text' id='login' name='login' class='register-form__input' />
+
+            <label class='input__label' for='first_name'>Имя</label>
+            <input type='text' id='first_name' name='first_name' class='register-form__input' />
+
+            <label class='input__label' for='second_name'>Фамилия</label>
+            <input type='text' id='second_name' name='second_name' class='register-form__input' />
+
+            <label class='input__label' for='phone'>Телефон</label>
+            <input type='tel' id='phone' name='phone' class='register-form__input' />
+
+            <label class='input__label' for={{labelName}}>Пароль</label>
+            <input type='password' id='password' name='password' class='register-form__input' />
+
+            <label class='input__label' for='passwordRepeat'>Пароль (еще раз)</label>
+            <input type='password' id='passwordRepeat' name='passwordRepeat' class='register-form__input' />
+        </div>
+        <div class='register-form__buttons'>
+            <button class='register-form__submit'>{{action}}</button>
+            <a href='' class='register-form__sign'>{{additionalAction}}</a>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,58 @@
+.chats-list__item {
+    width: 290px;
+    border-top: 2px solid #eaeaea;
+    padding: 12px 0;
+    display: flex;
+
+    .chats-list__avatar {
+        width: 47px;
+        border-radius: 50%;
+    }
+
+    .chat-list__data {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        margin-left: 10px;
+
+        .chat-list__info {
+            display: flex;
+            flex-direction: column;
+
+            .chat-list__username {
+                font-size: 13px;
+                font-weight: 600;
+                color: #1e1e1e;
+            }
+
+            .chat-list__last-message {
+                font-size: 12px;
+                font-weight: 500;
+                color: #999999;
+                margin-top: 4px;
+            }
+        }
+
+        .chat-list__additional-info {
+            display: flex;
+            flex-direction: column;
+            .chat-list__time {
+                font-size: 9px;
+                color: #999999;
+            }
+
+            .chat-list__counter {
+                margin-top: 14px;
+                font-size: 11px;
+                width: 20px;
+                height: 20px;
+                background-color: #3369f3;
+                border-radius: 50%;
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+}
