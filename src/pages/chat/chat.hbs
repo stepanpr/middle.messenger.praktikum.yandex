@@ -1,0 +1,31 @@
+<div class='chat-wrapper'>
+
+    <div class='chats-column'>
+        <div class='chats-column__header'>
+            <button class='chats-column__profile-button'>Профиль ></button>
+            <input class='chats-column__search-input' name='chat-search' placeholder='Поиск' />
+        </div>
+        <ul class='chats-column_chat-list'>{{{chatList}}}</ul>
+    </div>
+
+    <div class='chat-view'>
+
+        <div class='chat-view__header'>
+            <div class='chat-view__userinfo'>
+                <img class='chat-view__avatar' src={{avatar_icon}} />
+                <span class='chat-view__username'>Иван</span>
+            </div>
+            <button class='chat-view__menu-button'></button>
+        </div>
+
+        <ul class='chat-view__messages-list'>{{{messagesList}}}</ul>
+
+        <form class='chat-new-message'>
+            <img class='chat-new-message__attach-img' src={{attachment_icon}} />
+            <input placeholder='Сообщение' name='message' class='chat-new-message__input' type='text' />
+            <img class='chat-new-message__send-button' src={{arrow_ight_icon}} />
+        </form>
+
+    </div>
+
+</div>

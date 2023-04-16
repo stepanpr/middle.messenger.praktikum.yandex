@@ -1,0 +1,48 @@
+<div class='profile-wrapper'>
+    <div class='profile__avatar'>
+        <img src={{userAvatar}} />
+        <span id='change-avatar-button' class='profile__avatar-change-button'>
+            Поменять
+            <br />
+            аватар
+        </span>
+    </div>
+
+    <form action='#' class='profile__form'>
+
+        <label class='profile__label bottom-divider' for='email'>
+            Почта
+            <input placeholder='pochta@yandex.ru' name='email' type='email' id='email' class='profile__input' />
+        </label>
+
+        <label class='profile__label bottom-divider' for='login'>
+            Логин
+            <input placeholder='ivanivanov' name='login' type='text' id='login' class='profile__input' />
+        </label>
+
+        <label class='profile__label bottom-divider' for='first_name'>
+            Имя
+            <input placeholder='Иван' name='first_name' type='text' id='first_name' class='profile__input' />
+        </label>
+
+        <label class='profile__label bottom-divider' for='second_name'>
+            Фамилия
+            <input placeholder='Иванов' name='second_name' type='text' id='second_name' class='profile__input' />
+        </label>
+
+        <label class='profile__label bottom-divider' for='display_name'>
+            Имя в чате
+            <input placeholder='Иван' name='display_name' type='text' id='display_name' class='profile__input' />
+        </label>
+        <label class='profile__label bottom-divider' for='phone'>
+            Телефон
+            <input placeholder='+7(909)9673030' name='phone' type='tel' id='phone' class='profile__input' />
+        </label>
+
+        <div class='profile__actions'>
+            <button class='profile__submit'>Сохранить</button>
+
+        </div>
+    </form>
+
+</div>
