@@ -4,8 +4,8 @@ import chatListItemTemplate from './templates/chatsListItem.hbs';
 import messageTemplate from './templates/chatMessage.hbs';
 
 // icons
-import avatar_icon from '../../shared/ui/icons/avatar_icon.png';
-import arrow_ight_icon from '../../shared/ui/icons/arrow_right_icon.png';
+import defaultAavatar_icon from '../../shared/ui/icons/avatar_icon.png';
+import arrowRight_icon from '../../shared/ui/icons/arrow_right_icon.png';
 import attachment_icon from '../../shared/ui/icons/attachment_icon.png';
 import delivered_icon from '../../shared/ui/icons/delivered_icon.png';
 
@@ -26,28 +26,28 @@ import './templates/chatMessage.less';
  */
 const chatList = [
     {
-        avatar_icon,
+        userAvatar: defaultAavatar_icon,
         userName: 'user1',
         lastMessage: 'last-message',
         time: '23:30',
         count: 2,
     },
     {
-        avatar_icon,
+        userAvatar: defaultAavatar_icon,
         userName: 'user2',
         lastMessage: 'last-message',
         time: '10:59',
         count: 1,
     },
     {
-        avatar_icon,
+        userAvatar: defaultAavatar_icon,
         userName: 'user3',
         lastMessage: 'last-message',
         time: '21:01',
         count: 5,
     },
     {
-        avatar_icon,
+        userAvatar: defaultAavatar_icon,
         userName: 'user4',
         lastMessage: 'last-message',
         time: '16:59',
@@ -123,10 +123,11 @@ const createListTemplate = (items, template) => {
     return listTemplate;
 };
 
-const Chat = () => {
+const Chat = ({mainName = 'User', mainAvatar = defaultAavatar_icon}) => {
     const context = {
-        avatar_icon,
-        arrow_ight_icon,
+		mainName,
+        mainAvatar,
+        arrowRight_icon,
         attachment_icon,
         messagesList: createListTemplate(messageList, messageTemplate),
         chatList: createListTemplate(chatList, chatListItemTemplate),

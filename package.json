@@ -1,10 +1,9 @@
 {
-    "name": "yandex_messenger",
+    "name": "yandex-messenger",
     "version": "1.0.0",
-    "description": "yandex_practicum/messenger",
+    "description": "yandex-practicum/yandex-messenger",
     "browserslist": "> 0.5%, last 2 versions, not dead",
-    "scripts": {
-        "dev": "parcel ./static/index.html -p 3001",
+	"scripts": {
         "build": "parcel build ./index.html --no-cache",
         "start": "parcel --port 3000 ./index.html --open"
     },

@@ -7,41 +7,26 @@ import Error500 from '../pages/error500/Error500';
 
 /** Маршруты приложения. */
 export const ROUTES = [
-    { path: '/' },
-    { path: '/register' },
-    { path: '/profile' },
-    { path: '/profile-edit' },
-    { path: '/profile-change-password' },
-    { path: '/chat' },
-    { path: '/error404' },
-    { path: '/error500' },
+    { path: '/', component: () => Auth() },
+    { path: '/register', component: () => Register() },
+    { path: '/profile', component: () => Profile('profile') },
+    { path: '/profile-edit', component: () => Profile('profile-edit') },
+    { path: '/profile-change-password', component: () => Profile('profile-change-password') },
+    { path: '/chat', component: () => Chat({ mainName: 'Antonio', mainAvatar: undefined }) },
+    { path: '/error404', component: () => Error404() },
+    { path: '/error500', component: () => Error500() },
 ];
 
 /** Маршрутизатор. */
-export const router = () => {
+export const Router = () => {
     /** Корневой элемент приложения. */
     let root = document.getElementById('root');
 
-    /** Обработчик маршрутов. */
-    const routing = (path) => {
-        if (path === '/') root.innerHTML = Auth();
-        if (path === '/register') root.innerHTML = Register();
-        if (path === '/profile') root.innerHTML = Profile('profile');
-        if (path === '/profile-edit') root.innerHTML = Profile('profile-edit');
-        if (path === '/profile-change-password') root.innerHTML = Profile('profile-change-password');
-        if (path === '/chat') root.innerHTML = Chat();
-        if (path === '/error404') root.innerHTML = Error404();
-        if (path === '/error500') root.innerHTML = Error500();
-    };
+    /** Поиск и обработка маршрута. */
+    const component = ROUTES.find((route) => route.path == window.location.pathname)?.component || ROUTES[6].component;
 
-    let route = ROUTES.find((route) => route.path == window.location.pathname);
-    console.log(route);
-    if (route && route.path) {
-        routing(route.path); //Вызов обработчика маршрута.
-    } else {
-        routing('/error404'); //Страница ошибки если маршрут не найден.
-    }
+    root.innerHTML = component();
 };
 
-window.addEventListener('hashchange', router);
-window.addEventListener('load', router);
+window.addEventListener('hashchange', Router);
+window.addEventListener('load', Router);

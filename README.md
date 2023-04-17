@@ -13,10 +13,11 @@ yandex_practicum
 
 
   - установка - `npm install`
+  - запуск (3000 порт) - `npm run start`
   - сборка - `npm run build`
-  - запуск - `npm run start`
+  - раздача статики на 3000 порту - `node server.js`
 
 
 ### Проект запускается на 3000 порту
 
-[Netlify] (https://silver-meerkat-e9b2f5.netlify.app/)
+[Netlify](https://silver-meerkat-e9b2f5.netlify.app/)

@@ -1,5 +1,5 @@
-import { router } from './router.js';
+import { Router } from './router.js';
 
-const App = () => router;
+const App = () => Router;
 
 export default App;
