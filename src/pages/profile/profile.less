@@ -1,0 +1,86 @@
+
+@import './profilePages.less';
+
+.profile-layout {
+	display: flex;
+	flex-direction: row;
+}
+
+.profile-layout__back-button {
+	width: 64px;
+	height: 100vh;
+	background: #FBFBFB;
+	border-right: 1px solid @colLightestGray;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.profile-layout__content {
+	height: 100vh;
+	width: calc(100% - 64px);
+}
+
+
+.upload-avatar-modal-background { 
+	position: absolute;
+	background-color: #000;
+	opacity: .4;
+	height: 100vh;
+	width: 100%;
+	z-index: 100;
+}
+
+.upload-avatar-modal-wrapper {
+	position: absolute;
+	height: 100vh;
+	width: 100%;
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	.upload-avatar-modal {
+		width: 370px;
+		height: 271px;
+		z-index: 1100;
+		background-color: #fff;
+		border-radius: 12px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin: 0 auto;
+		
+		.upload-avatar-modal__title {
+			font-size: 15px;
+			font-weight: 500;
+			margin-top: 40px;
+			// z-index: 1110;
+		}
+
+		.upload-avatar-modal__label {
+			cursor: pointer;
+			margin-top: 43px;
+			font-size: 12px;
+			width: 122;
+			color: @colPrimary;
+			text-decoration: underline;
+			text-align: center;
+		}
+
+		.upload-avatar-modal__input {
+			opacity: 0;
+		}
+
+		.upload-avatar-modal__button {
+			width: 280px;
+			height: 37px;
+			border: 0;
+			background-color: @colPrimary;
+			margin-top: 45px;
+			border-radius: 8px;
+			color: #fff;
+		}
+	}
+
+}
