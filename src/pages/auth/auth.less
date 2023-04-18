@@ -1,3 +1,5 @@
+@import url(./../../shared/common.less);
+
 .auth-container {
     width: 100%;
     height: calc(100vh - 41px);
@@ -15,7 +17,7 @@
         .auth-form__title {
             font-size: 20px;
             margin-top: 50px;
-            color: #1e1e1e;
+            color: @colDarkGray;
             margin-bottom: 40px;
         }
 
@@ -24,14 +26,14 @@
             flex-direction: column;
 
             .input__label {
-                color: #999999;
+                color: @colGray;
                 font-size: 9px;
             }
 
             .auth-form__input {
                 width: 280px;
                 border: 0;
-                border-bottom: 1px solid #3369f3;
+                border-bottom: 1px solid @colPrimary;
                 line-height: 13px;
                 margin-top: 8px;
                 outline: none;
@@ -45,10 +47,10 @@
             flex-direction: column;
             align-items: center;
 
-            .auth-form__submit {
+            .auth-form__signin {
                 width: 280px;
                 height: 37px;
-                background-color: #3369f3;
+                background-color: @colPrimary;
                 margin-bottom: 14px;
                 border-radius: 8px;
                 border: 0;
@@ -56,10 +58,9 @@
                 color: #fff;
             }
 
-            .auth-form__sign {
-                font-size: 11px;
-                text-decoration: none;
-                color: #3369f3;
+            .auth-form__signup {
+				&:extend(.profile__btn-link); 
+				font-size: 11px;
             }
         }
     }

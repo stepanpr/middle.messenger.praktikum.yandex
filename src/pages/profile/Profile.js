@@ -8,8 +8,8 @@ import ProfileChangePassword from './profileChangePassword/ProfileChangePassword
 import ProfileUploadAvatar from './profileUploadAvatar/ProfileUploadAvatar';
 
 //icons
-import arrowLeft_icon from './../../../static/images/arrow_left_icon.png';
-import noAvatar_icon from './../../../static/images/no_avatar_icon.png';
+import arrowLeft_icon from '../../shared/ui/icons/arrow_left_icon.png';
+import noAvatar_icon from '../../shared/ui/icons/no_avatar_icon.png';
 
 import './profile.less';
 import './profilePages.less';
