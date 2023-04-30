@@ -8,6 +8,10 @@ import defaultAavatar_icon from '../../shared/ui/icons/avatar_icon.png';
 import arrowRight_icon from '../../shared/ui/icons/arrow_right_icon.png';
 import attachment_icon from '../../shared/ui/icons/attachment_icon.png';
 import delivered_icon from '../../shared/ui/icons/delivered_icon.png';
+// import { ROUTES } from 'app/router'
+// import www from 'shared/ui/icons/arrow_left_icon.png'
+// import www from 'shared/ui/icons'
+
 
 //usersImages
 import img_1 from '../../shared/ui/icons/img1.png';
@@ -18,13 +22,24 @@ import './templates/chatsListItem.less';
 import './templates/chatMessage.less';
 
 /** chatList
- * @field avatar_icon
+ * @field userAvatar
  * @field userName
  * @field lastMessage
  * @field time
  * @field count
  */
-const chatList = [
+
+type TChatItem = {
+  userAvatar: any
+  userName: string
+  lastMessage: string
+  time: string
+  count: number | string
+}
+
+// console.log(www)
+
+const chatList: TChatItem[] = [
     {
         userAvatar: defaultAavatar_icon,
         userName: 'user1',
@@ -62,7 +77,16 @@ const chatList = [
  * @field time
  * @field delivered_icon
  */
-const messageList = [
+
+type  TMessageItem = {
+	isMyMessage?: boolean
+	text: string
+	image?: any
+	time: string
+	delivered_icon?: any
+}
+
+const messageList: TMessageItem[] = [
     {
         isMyMessage: true,
         text: 'Привет',
@@ -113,7 +137,7 @@ const messageList = [
 ];
 
 /** Генерация списка сущностей на основе входящих данных. */
-const createListTemplate = (items, template) => {
+const createListTemplate = <T>(items: T[] , template: (params: any) => string) => {
     let listTemplate = ``;
 
     items.forEach((_, i) => {

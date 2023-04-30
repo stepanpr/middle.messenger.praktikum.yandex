@@ -9,9 +9,9 @@ import Error500 from '../pages/error500/Error500';
 export const ROUTES = [
     { path: '/', component: () => Auth() },
     { path: '/register', component: () => Register() },
-    { path: '/profile', component: () => Profile('profile') },
-    { path: '/profile-edit', component: () => Profile('profile-edit') },
-    { path: '/profile-change-password', component: () => Profile('profile-change-password') },
+    { path: '/profile', component: () => Profile({path: 'profile'}) },
+    { path: '/profile-edit', component: () => Profile({path: 'profile-edit'}) },
+    { path: '/profile-change-password', component: () => Profile({path: 'profile-change-password'}) },
     { path: '/chat', component: () => Chat({ mainName: 'Antonio', mainAvatar: undefined }) },
     { path: '/error404', component: () => Error404() },
     { path: '/error500', component: () => Error500() },

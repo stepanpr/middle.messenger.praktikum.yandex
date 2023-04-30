@@ -14,14 +14,24 @@ import noAvatar_icon from '../../shared/ui/icons/no_avatar_icon.png';
 import './profile.less';
 import './profilePages.less';
 
-const Profile = (path) => {
+interface IProfileContext {
+    arrowLeft_icon: File | string;
+    profilePage: any;
+    profileUploadAvatarModal: () => void;
+}
+
+interface IProfile {
+    path: string;
+}
+
+const Profile = ({ path }: IProfile) => {
     /** Признак открытия модалки загрузки аватара. */
     let isUploadAvatarModalOpen = false;
 
     let profilePage = null;
 
     if (path === 'profile') {
-        profilePage = ProfileGeneral(noAvatar_icon, 'Иван'); //пока что передаем дефолтный аватар
+        profilePage = ProfileGeneral({ avatar: noAvatar_icon, name: 'Иван' }); //пока что передаем дефолтный аватар
     } else if (path === 'profile-edit') {
         profilePage = ProfileEdit(noAvatar_icon);
     } else if (path === 'profile-change-password') {
@@ -30,7 +40,11 @@ const Profile = (path) => {
 
     console.log(path);
 
-    const context = { arrowLeft_icon, profilePage, profileUploadAvatarModal: (isUploadAvatarModalOpen && ProfileUploadAvatar()) || null };
+    const context: IProfileContext = {
+        arrowLeft_icon,
+        profilePage,
+        profileUploadAvatarModal: (isUploadAvatarModalOpen && ProfileUploadAvatar()) || null,
+    };
 
     return profileTemplate(context);
 };

@@ -3,9 +3,14 @@
     "version": "1.0.0",
     "description": "yandex-practicum/yandex-messenger",
     "browserslist": "> 0.5%, last 2 versions, not dead",
-	"scripts": {
+    "scripts": {
         "build": "parcel build ./index.html --no-cache",
-        "start": "parcel --port 3000 ./index.html --open"
+        "start": "parcel --port 3000 ./index.html --open",
+        "dev": "parcel --port 3001 ./index.html",
+		"eslint": "node_modules/.bin/eslint --ext .ts",
+		"eslint:fix": "node_modules/.bin/eslint --fix --ext .ts",
+		"stylelint": "node_modules/.bin/stylelint **/*.less",
+		"stylelint:fix": "node_modules/.bin/stylelint **/*.less --fix"
     },
     "repository": {
         "type": "git",
@@ -19,12 +24,24 @@
     },
     "homepage": "https://github.com/stepanpr/middle.messenger.praktikum.yandex#readme",
     "devDependencies": {
+        "@parcel/transformer-inline-string": "^2.8.3",
         "@parcel/transformer-less": "^2.8.3",
+        "@parcel/transformer-sass": "^2.8.3",
+        "@typescript-eslint/eslint-plugin": "^5.59.1",
+        "@typescript-eslint/parser": "^5.59.1",
+        "eslint": "^8.39.0",
+        "eslint-config-airbnb": "^19.0.4",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-plugin-prettier": "^4.2.1",
         "express": "^4.18.2",
         "parcel": "^2.8.3",
         "parcel-transformer-hbs": "^1.0.4",
-        "@parcel/transformer-inline-string": "^2.8.3",
-        "@parcel/transformer-sass": "^2.8.3"
+        "path-browserify": "^1.0.1",
+        "postcss-less": "^6.0.0",
+        "prettier": "^2.8.8",
+        "stylelint": "^15.6.0",
+        "stylelint-config-recommended-less": "^1.0.4",
+        "typescript": "^5.0.4"
     },
     "engines": {
         "node": ">= 12.0.0"

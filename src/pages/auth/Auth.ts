@@ -1,4 +1,5 @@
 import authTemplate from './auth.hbs';
+
 import './auth.less';
 
 const Auth = () => {

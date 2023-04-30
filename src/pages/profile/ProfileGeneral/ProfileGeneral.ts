@@ -1,6 +1,11 @@
 import profileTemplate from './profileGeneral.hbs';
 
-const ProfileGeneral = (avatar, name) => {
+interface IProfileGeneral {
+	avatar: File | string
+	name: string
+}
+
+const ProfileGeneral = ({avatar, name}: IProfileGeneral) => {
     const context = { name: name || 'Uniknown', userAvatar: avatar };
 
     return profileTemplate(context);
