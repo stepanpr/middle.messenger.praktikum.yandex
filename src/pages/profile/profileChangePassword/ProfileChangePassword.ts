@@ -1,9 +1,20 @@
+import Block from '../../../shared/lib/Block';
 import profileChangePasswordTemplate from './profileChangePassword.hbs';
 
-const ProfileChangePassword = (avatar) => {
-    const context = { userAvatar: avatar };
+interface IProfileChangePasswordProps {
+    userAvatar?: File | string;
+}
 
-    return profileChangePasswordTemplate(context);
-};
+class ProfileChangePassword extends Block {
+    constructor(props?: IProfileChangePasswordProps) {
+        super({
+            ...props,
+        });
+    }
+
+    render() {
+        return this.compile(profileChangePasswordTemplate, { ...this.props });
+    }
+}
 
 export default ProfileChangePassword;

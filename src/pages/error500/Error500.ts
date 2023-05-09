@@ -1,10 +1,15 @@
+import Block from '../../shared/lib/Block';
 import error500Template from './error500.hbs';
 import './error500.less';
 
-const Error500 = () => {
-	const context = { action: 'Зарегестрироваться', additionalAction: 'Войти' };
+class Error500 extends Block {
+    constructor(props: Record<string, any> = {}) {
+        super({ ...props });
+    }
 
-    return error500Template(context);
-};
+    render(): DocumentFragment {
+        return this.compile(error500Template, this.props);
+    }
+}
 
 export default Error500;

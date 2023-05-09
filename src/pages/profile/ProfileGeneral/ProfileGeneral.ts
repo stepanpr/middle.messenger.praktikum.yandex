@@ -1,14 +1,21 @@
-import profileTemplate from './profileGeneral.hbs';
+import Block from '../../../shared/lib/Block';
+import profileGeneralTemplate from './profileGeneral.hbs';
 
-interface IProfileGeneral {
-	avatar: File | string
-	name: string
+interface IProfileGeneralProps {
+    userAvatar?: File | string;
+    name?: string;
 }
 
-const ProfileGeneral = ({avatar, name}: IProfileGeneral) => {
-    const context = { name: name || 'Uniknown', userAvatar: avatar };
+class ProfileGeneral extends Block {
+    constructor(props?: IProfileGeneralProps) {
+        super({
+            ...props,
+        });
+    }
 
-    return profileTemplate(context);
-};
+    render() {
+        return this.compile(profileGeneralTemplate, { ...this.props });
+    }
+}
 
 export default ProfileGeneral;

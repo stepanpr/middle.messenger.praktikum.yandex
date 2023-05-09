@@ -1,10 +1,15 @@
+import Block from '../../shared/lib/Block';
 import error404Template from './error404.hbs';
 import './error404.less';
 
-const Error404 = () => {
-    const context = {};
+class Error404 extends Block {
+    constructor(props: Record<string, any> = {}) {
+        super({ ...props });
+    }
 
-    return error404Template(context);
-};
+    render(): DocumentFragment {
+        return this.compile(error404Template, this.props);
+    }
+}
 
 export default Error404;

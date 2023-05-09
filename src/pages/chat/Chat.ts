@@ -1,3 +1,5 @@
+import Block from '../../shared/lib/Block';
+
 // templates
 import chatTemplate from './chat.hbs';
 import chatListItemTemplate from './templates/chatsListItem.hbs';
@@ -8,10 +10,6 @@ import defaultAavatar_icon from '../../shared/ui/icons/avatar_icon.png';
 import arrowRight_icon from '../../shared/ui/icons/arrow_right_icon.png';
 import attachment_icon from '../../shared/ui/icons/attachment_icon.png';
 import delivered_icon from '../../shared/ui/icons/delivered_icon.png';
-// import { ROUTES } from 'app/router'
-// import www from 'shared/ui/icons/arrow_left_icon.png'
-// import www from 'shared/ui/icons'
-
 
 //usersImages
 import img_1 from '../../shared/ui/icons/img1.png';
@@ -21,23 +19,20 @@ import './chat.less';
 import './templates/chatsListItem.less';
 import './templates/chatMessage.less';
 
-/** chatList
+/** TChatItem
  * @field userAvatar
  * @field userName
  * @field lastMessage
  * @field time
  * @field count
  */
-
 type TChatItem = {
-  userAvatar: any
-  userName: string
-  lastMessage: string
-  time: string
-  count: number | string
-}
-
-// console.log(www)
+    userAvatar: any;
+    userName: string;
+    lastMessage: string;
+    time: string;
+    count: number | string;
+};
 
 const chatList: TChatItem[] = [
     {
@@ -70,21 +65,20 @@ const chatList: TChatItem[] = [
     },
 ];
 
-/** messageList
+/** TMessageItem
  * @field isMyMessage
  * @field text
  * @field image
  * @field time
  * @field delivered_icon
  */
-
-type  TMessageItem = {
-	isMyMessage?: boolean
-	text: string
-	image?: any
-	time: string
-	delivered_icon?: any
-}
+type TMessageItem = {
+    isMyMessage?: boolean;
+    text: string;
+    image?: any;
+    time: string;
+    delivered_icon?: any;
+};
 
 const messageList: TMessageItem[] = [
     {
@@ -137,7 +131,7 @@ const messageList: TMessageItem[] = [
 ];
 
 /** Генерация списка сущностей на основе входящих данных. */
-const createListTemplate = <T>(items: T[] , template: (params: any) => string) => {
+const createListTemplate = <T>(items: T[], template: (params: any) => string) => {
     let listTemplate = ``;
 
     items.forEach((_, i) => {
@@ -147,17 +141,45 @@ const createListTemplate = <T>(items: T[] , template: (params: any) => string) =
     return listTemplate;
 };
 
-const Chat = ({mainName = 'User', mainAvatar = defaultAavatar_icon}) => {
-    const context = {
-		mainName,
-        mainAvatar,
-        arrowRight_icon,
-        attachment_icon,
-        messagesList: createListTemplate(messageList, messageTemplate),
-        chatList: createListTemplate(chatList, chatListItemTemplate),
-    };
+/** Контекст шаблона чата.
+ * @param arrowRight_icon Значок для кнопки "Отправить".
+ * @param attachment_icon Иконка кнопки вложения.
+ * @param messagesList Список сообщений.
+ * @param chatList Список чатов.
+ */
+interface IChatTemlpateContext {
+    arrowRight_icon?: File | string;
+    attachment_icon?: File | string;
+    messagesList?: string;
+    chatList?: string;
+}
 
-    return chatTemplate(context);
-};
+/** Пропсы чата.
+ * @prop mainName Имя пользователя.
+ * @prop mainAvatar Аватар пользователя.
+ */
+interface IChatProps {
+    mainName?: string;
+    mainAvatar?: File | string;
+}
+
+class Chat extends Block {
+    constructor(props?: IChatProps & IChatTemlpateContext) {
+        super({
+            mainAvatar: defaultAavatar_icon,
+            mainName: props?.mainName,
+        });
+    }
+
+    render() {
+        return this.compile(chatTemplate, {
+            ...this.props,
+            arrowRight_icon,
+            attachment_icon,
+            messagesList: createListTemplate(messageList, messageTemplate),
+            chatList: createListTemplate(chatList, chatListItemTemplate),
+        });
+    }
+}
 
 export default Chat;

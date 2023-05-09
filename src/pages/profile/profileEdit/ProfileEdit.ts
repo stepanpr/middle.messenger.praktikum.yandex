@@ -1,9 +1,20 @@
+import Block from '../../../shared/lib/Block';
 import profileEditTemplate from './profileEdit.hbs';
 
-const ProfileEdit = (avatar) => {
-    const context = { userAvatar: avatar };
+interface IProfileEditProps {
+    userAvatar?: File | string;
+}
 
-    return profileEditTemplate(context);
-};
+class ProfileEdit extends Block {
+    constructor(props?: IProfileEditProps) {
+        super({
+            ...props,
+        });
+    }
+
+    render() {
+        return this.compile(profileEditTemplate, { ...this.props });
+    }
+}
 
 export default ProfileEdit;
