@@ -1,16 +1,13 @@
 <div class='auth-container'>
-    <form class='auth-form'>
+    <form action="" class='auth-form'>
         <h3 class='auth-form__title'>Вход</h3>
         <div class='auth-form__inputs'>
-            <label class='input__label' for='login'>Логин</label>
-            <input type='text' id='login' name='login' class='auth-form__input' />
-
-            <label class='input__label' for='password'>Пароль</label>
-            <input type='text' id='password' name='password' class='auth-form__input' />
+			{{{inputLogin}}}
+            {{{inputPassword}}} 
         </div>
         <div class='auth-form__buttons'>
-            <button class='auth-form__signin color-primary' type = "submit">{{action}}</button>
-			<button class='auth-form__signup'  type = "button">{{additionalAction}}</button>
+			{{{authButton}}}
+			<button class='auth-form__signup profile__btn-link'  type = "button">{{additionalAction}}</button>
         </div>
     </form>
 </div>
