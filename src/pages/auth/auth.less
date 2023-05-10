@@ -8,7 +8,7 @@
     align-items: center;
     .auth-form {
         width: 340px;
-        height: 460px;
+        height: auto;
         display: flex;
         align-items: center;
         flex-direction: column;
@@ -42,12 +42,13 @@
         }
 
         .auth-form__buttons {
-            margin-top: 159px;
+            margin-top: 110px;
+			margin-bottom: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
 
-            .auth-form__signin {
+            .auth-form__signin { //deprecated
                 width: 280px;
                 height: 37px;
                 background-color: @colPrimary;
@@ -61,6 +62,7 @@
             .auth-form__signup {
 				&:extend(.profile__btn-link); 
 				font-size: 11px;
+				margin-top: 30px;
             }
         }
     }

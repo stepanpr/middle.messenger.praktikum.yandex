@@ -1,4 +1,5 @@
 import Block from '../../shared/lib/Block';
+import IconButton from '../../shared/ui/IconButton/IconButton';
 
 // templates
 import chatTemplate from './chat.hbs';
@@ -165,9 +166,27 @@ interface IChatProps {
 
 class Chat extends Block {
     constructor(props?: IChatProps & IChatTemlpateContext) {
+        const sendButton = new IconButton({
+            type: 'submit',
+            icon: arrowRight_icon,
+            styles: { button: 'icon-button' },
+            events: {
+                click: (e) => {
+                    e.preventDefault();
+                    const message: string | null = (<HTMLInputElement>(
+                        document.querySelector('#message-input')
+                    )).value;
+
+                    console.log('Сообщение: ', message);
+                },
+            },
+        });
+
         super({
+            props,
             mainAvatar: defaultAavatar_icon,
             mainName: props?.mainName,
+            sendButton,
         });
     }
 

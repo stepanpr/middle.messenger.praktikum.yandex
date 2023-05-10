@@ -8,97 +8,13 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+	"skipLibCheck": true,
     "strictNullChecks": false,
 	"noImplicitAny": true,
 	"noUnusedLocals": true,
 	"noUnusedParameters": true,
 	"sourceMap": true,
-	"skipLibCheck": true,
    },
    "include": ["src", "types.d.ts"],
    "exclude": ["node_modules"],
-} 
-
-
-
-// "alias": {
-
-
-// 	"@app/*": "app/*",
-// 	"@pages/*": "pages/*",
-// 	"@shared/*": "shared/*"
-// 	},
-
-// 	"baseUrl": "./src",
-// 	"rootDir": ".",
-// 	"moduleResolution": "node",
-//     "paths": {
-// 		"@app/*": ["app/*"],
-// 		"@pages/*": ["pages/*"],
-// 		"@shared/*": ["shared/*"]
-
-// 	},
- 
-
-// "baseUrl": "./src",
-// "paths": {
-// 	"@/*": ["./*"]
-// },
-
-
-	// "baseUrl": "srd",
-	// "rootDir": ".",
-	// "moduleResolution": "node",
-    // "paths": {
-	// 	// "@/*": [
-	// 	//   "./src/*"
-	// 	// ]},
-
-	// 	"@app/*": ["app/*"],
-	// 	"@pages/*": ["pages/*"],
-	// 	"@shared/*": ["shared/*"]
-
-	// },
-
-		// "paths": {
-		// 	"app/*": ["./src/app/*"],
-		// 	"shared/*": ["./src/shared/*"],
-
-		// },
-
-// "alias": {
-// 	"pages/*": "./src/pages/$1",
-// 	"app/*": "./src/app/$1",
-// 	"shared/*": "./src/shared/*"
-//   },
-
-
-// "compilerOptions": {
-// 	"baseUrl": ".",
-// "paths": {
-// "@pages/*": ["src/pages/*"],
-// "@app/*": ["src/app/*"],
-// "@shared/*": ["src/shared/*"]
-// },
-// "target": "es2015",
-// "lib": ["dom", "dom.iterable", "esnext"],
-// "allowJs": true,
-// "skipLibCheck": true,
-// "esModuleInterop": true,
-// "allowSyntheticDefaultImports": true,
-// "strict": true,
-// "forceConsistentCasingInFileNames": true,
-// "module": "esnext",
-// "moduleResolution": "node",
-// "resolveJsonModule": true,
-// "isolatedModules": true,
-// "noEmit": true,
-// "noImplicitAny": true,
-// "noUnusedLocals": true,
-// "noUnusedParameters": true,
-// "sourceMap": true,
-// "strictNullChecks": true
-// },
-// "include": ["src", "src/types/index.d.ts"],
-// "exclude": ["node_modules"]
-// }
+}

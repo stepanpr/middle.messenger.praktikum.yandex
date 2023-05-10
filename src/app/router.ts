@@ -9,10 +9,8 @@ import Error404 from '../pages/error404/Error404';
 import Error500 from '../pages/error500/Error500';
 
 /** Создание экземляров классов разделов чата. */
-const AuthUnit: Block = new Auth({});
-AuthUnit.setProps({ action: 'Авторизоваться', additionalAction: 'Нет аккаунта?' });
-const RegisterUnit: Block = new Register({});
-RegisterUnit.setProps({ action: 'Зарегестрироваться', additionalAction: 'Войти' });
+const AuthUnit: Block = new Auth({ action: 'Авторизоваться', additionalAction: 'Нет аккаунта?' });
+const RegisterUnit: Block = new Register({ action: 'Зарегестрироваться', additionalAction: 'Войти' });
 const ProfileGeneralUnit: Block = new ProfileLayout({ path: 'profile' });
 const ProfileEditUnit: Block = new ProfileLayout({ path: 'profile-edit' });
 const ProfileChangePasswordUnit: Block = new ProfileLayout({ path: 'profile-change-password' });
