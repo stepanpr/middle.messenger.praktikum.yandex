@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "baseUrl": "./",
+    //   "paths": {
+    //     "@angular/*": [
+    //       "../node_modules/@angular/*"
+    //     ],
+    //     "@environments/*": [
+    //       "../src/environments/*"
+    //     ]
+    //   }
+		"@app/*": ["app/*"],
+		"@pages/*": ["pages/*"],
+		"@shared/*": ["shared/*"]
+    }
+}

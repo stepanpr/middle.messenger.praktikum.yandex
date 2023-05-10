@@ -1,0 +1,29 @@
+// @use "../../../style.scss"as v;
+@import url(../../common.less);
+
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+	margin-bottom: 10px;
+
+    .input__title {
+		color: @colGray;
+		font-size: 9px;
+    }
+
+    input {
+		width: 280px;
+		border: 0;
+		border-bottom: 1px solid @colPrimary;
+		line-height: 13px;
+		margin-top: 8px;
+		outline: none;
+    }
+
+    .input__error-text {
+        left: 0;
+        color: red;
+        font-size: 9px;
+        width: 285px;
+    }
+}

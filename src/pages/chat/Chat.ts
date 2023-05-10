@@ -1,3 +1,6 @@
+import Block from '../../shared/lib/Block';
+import IconButton from '../../shared/ui/IconButton/IconButton';
+
 // templates
 import chatTemplate from './chat.hbs';
 import chatListItemTemplate from './templates/chatsListItem.hbs';
@@ -17,14 +20,22 @@ import './chat.less';
 import './templates/chatsListItem.less';
 import './templates/chatMessage.less';
 
-/** chatList
- * @field avatar_icon
+/** TChatItem
+ * @field userAvatar
  * @field userName
  * @field lastMessage
  * @field time
  * @field count
  */
-const chatList = [
+type TChatItem = {
+    userAvatar: any;
+    userName: string;
+    lastMessage: string;
+    time: string;
+    count: number | string;
+};
+
+const chatList: TChatItem[] = [
     {
         userAvatar: defaultAavatar_icon,
         userName: 'user1',
@@ -55,14 +66,22 @@ const chatList = [
     },
 ];
 
-/** messageList
+/** TMessageItem
  * @field isMyMessage
  * @field text
  * @field image
  * @field time
  * @field delivered_icon
  */
-const messageList = [
+type TMessageItem = {
+    isMyMessage?: boolean;
+    text: string;
+    image?: any;
+    time: string;
+    delivered_icon?: any;
+};
+
+const messageList: TMessageItem[] = [
     {
         isMyMessage: true,
         text: 'Привет',
@@ -113,7 +132,7 @@ const messageList = [
 ];
 
 /** Генерация списка сущностей на основе входящих данных. */
-const createListTemplate = (items, template) => {
+const createListTemplate = <T>(items: T[], template: (params: any) => string) => {
     let listTemplate = ``;
 
     items.forEach((_, i) => {
@@ -123,17 +142,63 @@ const createListTemplate = (items, template) => {
     return listTemplate;
 };
 
-const Chat = ({mainName = 'User', mainAvatar = defaultAavatar_icon}) => {
-    const context = {
-		mainName,
-        mainAvatar,
-        arrowRight_icon,
-        attachment_icon,
-        messagesList: createListTemplate(messageList, messageTemplate),
-        chatList: createListTemplate(chatList, chatListItemTemplate),
-    };
+/** Контекст шаблона чата.
+ * @param arrowRight_icon Значок для кнопки "Отправить".
+ * @param attachment_icon Иконка кнопки вложения.
+ * @param messagesList Список сообщений.
+ * @param chatList Список чатов.
+ */
+interface IChatTemlpateContext {
+    arrowRight_icon?: File | string;
+    attachment_icon?: File | string;
+    messagesList?: string;
+    chatList?: string;
+}
 
-    return chatTemplate(context);
-};
+/** Пропсы чата.
+ * @prop mainName Имя пользователя.
+ * @prop mainAvatar Аватар пользователя.
+ */
+interface IChatProps {
+    mainName?: string;
+    mainAvatar?: File | string;
+}
+
+class Chat extends Block {
+    constructor(props?: IChatProps & IChatTemlpateContext) {
+        const sendButton = new IconButton({
+            type: 'submit',
+            icon: arrowRight_icon,
+            styles: { button: 'icon-button' },
+            events: {
+                click: (e) => {
+                    e.preventDefault();
+                    const message: string | null = (<HTMLInputElement>(
+                        document.querySelector('#message-input')
+                    )).value;
+
+                    console.log('Сообщение: ', message);
+                },
+            },
+        });
+
+        super({
+            props,
+            mainAvatar: defaultAavatar_icon,
+            mainName: props?.mainName,
+            sendButton,
+        });
+    }
+
+    render() {
+        return this.compile(chatTemplate, {
+            ...this.props,
+            arrowRight_icon,
+            attachment_icon,
+            messagesList: createListTemplate(messageList, messageTemplate),
+            chatList: createListTemplate(chatList, chatListItemTemplate),
+        });
+    }
+}
 
 export default Chat;
