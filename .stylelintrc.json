@@ -1,0 +1,11 @@
+{
+	"extends": "stylelint-config-recommended-less",
+	"rules": {
+	  "color-hex-case": "lower",
+	  "block-no-empty": null
+	},
+	"ignoreFiles": [
+	  "build/*",
+	  "dist/*"
+	]
+  } 

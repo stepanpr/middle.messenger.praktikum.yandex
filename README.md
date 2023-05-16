@@ -1,23 +1,25 @@
+## yandex_practicum
 
+## проект - Мессенджер
 
-# yandex_practicum
+Проект чата с возможностью регистрации пользователей.
 
-yandex_practicum
+<!-- ## 1 модуль / 2 спринт -->
 
+### Ссылки
 
-# проект - Мессенджер
+-   [UI-прототипы](https://www.figma.com/file/24EUnEHGEDNLdOcxg7ULwV/)
+-   [Проект на Netlify](https://silver-meerkat-e9b2f5.netlify.app/)
 
-## 1 модуль / 1 спринт
+### Используемые технологии
 
-## UI - https://www.figma.com/file/24EUnEHGEDNLdOcxg7ULwV/
+-   HTML, CSS, JS, Typescript
+-   Шаблонизатор Handlebars
+-   ESLint, StyleLint
 
+### Команды для инициализации
 
-  - установка - `npm install`
-  - запуск (3000 порт) - `npm run start`
-  - сборка - `npm run build`
-  - раздача статики на 3000 порту - `node server.js`
-
-
-### Проект запускается на 3000 порту
-
-[Netlify](https://silver-meerkat-e9b2f5.netlify.app/)
+-   установка - `npm install`
+-   запуск (3000 порт) - `npm run start`
+-   сборка - `npm run build`
+-   раздача статики на 3000 порту - `node server.js`

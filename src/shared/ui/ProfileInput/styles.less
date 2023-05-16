@@ -1,0 +1,32 @@
+@import url(../../common.less);
+
+.profile-input-wrapper {
+    display: flex;
+    flex-direction: column;
+
+	.profile-input__label {
+		display: flex;
+		justify-content: space-between;
+		font-size: 13px;
+		color: @colDarkGray;
+		margin-bottom: 10px;
+		font-weight: 500;
+	}
+
+	.profile-input__input {
+		border: 0;
+		background-color: #fff;
+		line-height: 16px;
+		text-align: right;
+		outline: none;
+	}
+
+	.profile-input__error-text {
+		display: block;
+		top: 34px;
+		left: 0;
+		color: red;
+		font-size: 9px;
+		width: 510px;
+	}
+}
