@@ -10,8 +10,10 @@ import './styles.less';
  */
 interface IInputProps {
     name: string;
-    label: string;
+    label: string | undefined;
     type: string;
+    styles?: Record<string, string>;
+    fileInputLabel?: string;
     events: {
         change?: (e: Event) => void;
         input?: (e: Event) => void;
@@ -21,13 +23,19 @@ interface IInputProps {
 /** Компонент инпута. */
 class Input extends Block {
     constructor(props: IInputProps) {
+
+		let isFile = props.type === 'file' ? true : false;
         super({
             ...props,
+			isFile
         });
     }
 
     render() {
-        return this.compile(inputTemplate, { ...this.props });
+		console.log(this.props.styles)
+        return this.compile(inputTemplate, {
+            ...this.props,
+        });
     }
 }
 

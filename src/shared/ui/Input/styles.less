@@ -10,7 +10,7 @@
 		font-size: 9px;
     }
 
-    input {
+    .input-field {
 		width: 280px;
 		border: 0;
 		border-bottom: 1px solid @colPrimary;
@@ -26,3 +26,39 @@
         width: 285px;
     }
 }
+
+.file-upload__label input[type="file"] {
+	position: absolute;
+	display: none;
+  }
+  .file-upload__label {
+	cursor: pointer;
+	border: 4px dotted @colDarkGray;
+	border-radius: 5px;
+	padding: 5px 15px;
+	margin: 5px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	color: @colDarkGray;
+	font-size: 17px;
+	height: 40px;
+  }
+  .file-upload__label:hover {
+	background: @colLightestGray;
+  }
+  .file-upload__label:active {
+	background: @colGray;
+  }
+  .file-upload__label:invalid + span {
+	color: #000000;
+  }
+  .file-upload__label:valid + span {
+	color: #ffffff;
+  }
+
+  .file-upload__file-name {
+	color: @colPrimary;
+	margin-top: 20px;
+  }

@@ -3,11 +3,16 @@ import registerTemplate from './register.hbs';
 import Input from '../../shared/ui/Input/Input';
 import Button from '../../shared/ui/Button/Button';
 import { checkInput, checkSubmitForm, clearError, rules } from '../../shared/lib/handleErrors';
+import Router from '../../app/Router';
+import AuthController from '../../shared/controllers/AuthController';
+import { BASE_URL, SIGNIN_PATH } from '../../shared/constants';
+import { IRegisterFormData } from '../../shared/interfaces';
+
 import './register.less';
 
 interface RegisterProps {
-    action: string;
-    additionalAction: string;
+    action?: string;
+    additionalAction?: string;
 }
 class Register extends Block {
     constructor(props: RegisterProps) {
@@ -82,17 +87,48 @@ class Register extends Block {
         });
 
         const registerButton = new Button({
-            text: props.action,
+            text: props.action || 'Зарегестрироваться',
             type: 'submit',
+
             events: {
                 click: (event: Event) => {
-                    checkSubmitForm(event);
+                    const registerFormData: IRegisterFormData | undefined = checkSubmitForm(
+                        event,
+                        'register'
+                    );
+                    if (registerFormData) {
+                        const dataWithoutComfirmPass = Object.keys(registerFormData)
+                            .filter((key: string) => key !== 'password_confirm')
+                            .reduce(
+                                (acc, curr: keyof IRegisterFormData) => ({
+                                    ...acc,
+                                    [curr]: registerFormData[curr],
+                                }),
+                                {}
+                            );
+                        AuthController.registerUser(
+                            dataWithoutComfirmPass as IRegisterFormData
+                        );
+                    }
                 },
+            },
+        });
+
+        const loginButton = new Button({
+            text: 'Войти',
+            type: 'submit',
+            events: {
+                click: () => Router.go(SIGNIN_PATH),
+            },
+            styles: {
+                button: 'register-form__sign profile__btn-link',
             },
         });
 
         super({
             ...props,
+
+            url: `${BASE_URL}${SIGNIN_PATH}`,
             emailInput,
             loginInput,
             firstNameInput,
@@ -101,12 +137,12 @@ class Register extends Block {
             passwordInput,
             passwordConfirmInput,
             registerButton,
-			
+            loginButton,
         });
     }
 
     render() {
-        return this.compile(registerTemplate, this.props);
+        return this.compile(registerTemplate, { ...this.props });
     }
 }
 

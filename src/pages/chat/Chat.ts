@@ -1,5 +1,15 @@
 import Block from '../../shared/lib/Block';
 import IconButton from '../../shared/ui/IconButton/IconButton';
+import Button from '../../shared/ui/Button/Button';
+import Router from '../../app/Router';
+
+//
+// import ChatController from '../../shared/controllers/ChatController';
+// import store, { StoreEvents } from '../../app/Store'
+// import { Message } from '../../shared/controllers/MessagesController';
+// import ChatsController from '../../shared/controllers/ChatController';
+// import { ChatInfo } from '../../shared/api/ChatApi';
+// import { withStore } from '../../app/Store';
 
 // templates
 import chatTemplate from './chat.hbs';
@@ -182,11 +192,35 @@ class Chat extends Block {
             },
         });
 
+        const settingsButton = new Button({
+            text: 'Профиль >',
+            type: 'submit',
+            events: {
+                click: () => Router.go('/settings'),
+            },
+            styles: {
+                button: 'chats-column__profile-button profile__btn-link',
+            },
+        });
+
+        const settingsEditButton = new Button({
+            text: 'Настройки',
+            type: 'submit',
+            events: {
+                click: () => Router.go('/settings-edit'),
+            },
+            styles: {
+                button: 'chat-view__menu-button profile__btn-link',
+            },
+        });
+
         super({
             props,
             mainAvatar: defaultAavatar_icon,
             mainName: props?.mainName,
             sendButton,
+            settingsButton,
+            settingsEditButton,
         });
     }
 

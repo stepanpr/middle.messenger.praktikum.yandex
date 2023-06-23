@@ -31,7 +31,10 @@ class ProfileInput extends Block {
     }
 
     render() {
-        return this.compile(inputTemplate, { ...this.props });
+        return this.compile(inputTemplate, {
+            ...this.props,
+            isDisabled: this.props.disabled && 'disabled',
+        });
     }
 }
 

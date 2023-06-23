@@ -1,76 +1,34 @@
-import Block from '../shared/lib/Block';
-
-function isEqual(lhs: string, rhs: string): boolean {
-    return lhs === rhs;
-}
-
-function render(query: string, block: Block) {
-    const root = document.querySelector(query);
-
-    if (root === null) {
-        throw new Error(`Root not found "${query}"`);
-    }
-    root.innerHTML = '';
-
-    root.append(block.getContent()!);
-
-    return root;
-}
-
-class Route {
-    private _block: Block | null = null;
-
-    constructor(
-        private _pathname: string,
-        private readonly _blockClass: typeof Block,
-        private readonly _query: string
-    ) {}
-
-    leave() {
-        if (this._block) {
-            this._block = null;
-        }
-    }
-
-    match(pathname: string) {
-        return isEqual(pathname, this._pathname);
-    }
-
-    render() {
-        if (!this._block) {
-            this._block = new this._blockClass({});
-
-            render(this._query, this._block);
-            return;
-        }
-    }
-}
+import Block from './../shared/lib/Block';
+import Route from './Route';
 
 class Router {
     private static __instance: Router;
-    private _routes: Route[] = [];
-    private _currentRoute: Route | null = null;
-    private _history = window.history;
 
-    constructor(private readonly _rootQuery: string) {
+    private routes: Route[] = [];
+
+    private currentRoute: Route | null = null;
+
+    private history = window.history;
+
+    constructor(private readonly rootQuery: string) {
         if (Router.__instance) {
+            // eslint-disable-next-line no-constructor-return
             return Router.__instance;
         }
 
-        this._routes = [];
+        this.routes = [];
 
         Router.__instance = this;
     }
 
-    // регистрация блока
-    use(pathname: string, block: typeof Block) {
-        const route = new Route(pathname, block, this._rootQuery);
-        this._routes.push(route);
+    public use(pathname: string, block: typeof Block) {
+        const route = new Route(pathname, block, this.rootQuery);
+        this.routes.push(route);
+
         return this;
     }
 
-    // запустить роутер и приложение
-    start() {
+    public start() {
         window.onpopstate = (event: PopStateEvent) => {
             const target = event.currentTarget as Window;
 
@@ -80,39 +38,39 @@ class Router {
         this._onRoute(window.location.pathname);
     }
 
-    _onRoute(pathname: string) {
+    private _onRoute(pathname: string) {
         const route = this.getRoute(pathname);
 
         if (!route) {
             return;
         }
 
-        if (this._currentRoute && this._currentRoute !== route) {
-            this._currentRoute.leave();
+        if (this.currentRoute && this.currentRoute !== route) {
+            this.currentRoute.leave();
         }
 
-        this._currentRoute = route;
+        this.currentRoute = route;
 
         route.render();
     }
 
-    // go — переходит на требуемый роут
-    go(pathname: string) {
-        this._history.pushState({}, '', pathname);
+    public go(pathname: string) {
+        this.history.pushState({}, '', pathname);
+
         this._onRoute(pathname);
     }
-    // переход назад по истории браузера
-    back() {
-        this._history.back();
-    }
-    // переход вперед по истории браузера
-    forward() {
-        this._history.forward();
+
+    public back() {
+        this.history.back();
     }
 
-    getRoute(pathname: string) {
-        return this._routes.find((route) => route.match(pathname));
+    public forward() {
+        this.history.forward();
+    }
+
+    private getRoute(pathname: string) {
+        return this.routes.find((route) => route.match(pathname));
     }
 }
 
-export default new Router('#app');
+export default new Router('#root');
