@@ -1,3 +1,5 @@
+Opened pull request: https://github.com/stepanpr/middle.messenger.praktikum.yandex/pull/6
+
 ## yandex_practicum
 
 ## проект - Мессенджер
