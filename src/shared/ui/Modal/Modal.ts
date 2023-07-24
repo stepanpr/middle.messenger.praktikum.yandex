@@ -14,32 +14,11 @@ interface ModalProps {
     submitCallback?: (...data: any) => void;
     reloadAvatar?: () => void;
 }
-
-class Modal extends Block<ModalProps> {
+class Modal extends Block {
     private _file: any;
 
     constructor(props: ModalProps) {
-        super({
-            ...props,
-            selector: 'form',
-            events: {
-                submit: (e) => {
-                    e.preventDefault();
-                    if (props.submitCallback) {
-                        if (this.props.isFile) {
-                            props.submitCallback(this._file);
-                        }
-                        if (props.reloadAvatar) {
-                            props.reloadAvatar();
-                        }
-                    }
-                },
-            },
-        });
-    }
-
-    public init() {
-        this.children.inputFile = new Input({
+        const inputFile = new Input({
             label: 'Выбрать файл на компьютере',
             type: 'file',
             name: 'modal-input-file',
@@ -51,12 +30,12 @@ class Modal extends Block<ModalProps> {
             },
         });
 
-        this.children.submitButton = new Button({
-            text: this.props.buttonTitle,
+        const submitButton = new Button({
+            text: props.buttonTitle,
             type: 'submit',
         });
 
-        this.children.closeButton = new Button({
+        const closeButton = new Button({
             text: 'X',
             type: 'button',
             events: {
@@ -67,6 +46,27 @@ class Modal extends Block<ModalProps> {
                 },
             },
             styles: { button: 'closeButton' },
+        });
+
+        super('div', {
+            ...props,
+            inputFile,
+            submitButton,
+            closeButton,
+            selector: 'form',
+            events: {
+                submit: (e: any) => {
+                    e.preventDefault();
+                    if (props.submitCallback) {
+                        if (this.props.isFile) {
+                            props.submitCallback(this._file);
+                        }
+                        if (props.reloadAvatar) {
+                            props.reloadAvatar();
+                        }
+                    }
+                },
+            },
         });
     }
 

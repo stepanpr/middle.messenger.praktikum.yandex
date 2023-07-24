@@ -1,13 +1,13 @@
 <div class="input-wrapper" data-id={{name}}>
 	{{#if isFile}}
 	<label class="file-upload__label ">
-	<input type="file" name={{name}} />
-	<span>{{label}}</span>
+		<input type="file" name={{name}} />
+		<span>{{label}}</span>
 	</label>
 	{{#if fileInputLabel}}<span class="file-upload__file-name">{{fileInputLabel}}</span>{{/if}}
 	{{else}}
 	<span class='input__label'>{{label}}</span>
-	<input type={{type}} name={{name}} class='input-field'>
+	<input type={{type}} name={{name}} class={{styles.input}}>
 	{{/if}}
 	<span class="input__error-text" name={{name}}></span>
 </div>

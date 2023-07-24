@@ -3,7 +3,7 @@ import ProfileInput from '../../../shared/ui/ProfileInput/ProfileInput';
 import Button from '../../../shared/ui/Button/Button';
 import Avatar from '../../../shared/ui/Avatar/Avatar';
 import Modal from '../../../shared/ui/Modal/Modal';
-import { IUser } from '../../../shared/interfaces';
+import { IUser } from '../ProfileGeneral/ProfileGeneral';
 import { checkInput, checkSubmitForm, clearError, rules } from '../../../shared/lib/handleErrors';
 import profileEditTemplate from './profileEdit.hbs';
 import UserController from '../../../shared/controllers/UserController';
@@ -45,6 +45,7 @@ class ProfileEdit extends Block {
             title: 'Загрузите файл',
             buttonTitle: 'Поменять',
             submitCallback: UserController.changeAvatar.bind(UserController),
+
             reloadAvatar: () => {
                 setTimeout(() => {
                     AuthController.getUser()?.then((data: any) => {
@@ -152,7 +153,7 @@ class ProfileEdit extends Block {
             },
         });
 
-        super({
+        super('div', {
             ...props,
             avatar,
             emailProfileInput,

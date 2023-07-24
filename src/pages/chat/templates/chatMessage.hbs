@@ -1,7 +1,7 @@
 {{#if isMyMessage}}
     <li class='is-my-message'>
         {{#if image}}
-            <img class='is-my-message__attachment-image' src={{image}} alt="Картинка" />
+            <img class='is-my-message__attachment-image' src={{image}} alt={{imgAlt}} />
         {{/if}}
         <p>{{text}}</p>
         <span class='is-my-message__info'>

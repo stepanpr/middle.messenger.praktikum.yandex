@@ -1,4 +1,4 @@
-import { IRegisterFormData } from '../../shared/interfaces';
+import { IRegisterFormData } from '../../pages/register/Register';
 
 export const rules: { [key: string]: { message: string; regExp?: RegExp } } = {
     login: {
@@ -69,8 +69,7 @@ export const getAllFormData = (event: Event, formName: string): IRegisterFormDat
     ) as NodeListOf<HTMLInputElement>;
     inputs.forEach(
         (input) =>
-            (result[input.name as keyof IRegisterFormData] =
-                input.value || input.defaultValue)
+            (result[input.name as keyof IRegisterFormData] = input.value || input.defaultValue)
     );
     return result;
 };
@@ -93,10 +92,7 @@ export const checkInput = (event: Event, rules: Record<string, any>) => {
 };
 
 /** Проверка формы при отправке (submit). */
-export const checkSubmitForm = (
-    event: Event,
-    formName: string
-): IRegisterFormData | undefined => {
+export const checkSubmitForm = (event: Event, formName: string): IRegisterFormData | undefined => {
     event.preventDefault();
     const form = document.forms.namedItem(formName);
     if (!form) {

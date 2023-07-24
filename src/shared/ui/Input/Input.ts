@@ -23,18 +23,18 @@ interface IInputProps {
 /** Компонент инпута. */
 class Input extends Block {
     constructor(props: IInputProps) {
-
-		let isFile = props.type === 'file' ? true : false;
-        super({
+        let isFile = props.type === 'file' ? true : false;
+        super('div', {
             ...props,
-			isFile
+            isFile,
         });
     }
 
     render() {
-		console.log(this.props.styles)
+        console.log(this.props.styles);
         return this.compile(inputTemplate, {
             ...this.props,
+            styles: !this.props.styles ? { input: 'input-field' } : this.props.styles,
         });
     }
 }

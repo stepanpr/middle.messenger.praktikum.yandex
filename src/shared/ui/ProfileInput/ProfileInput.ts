@@ -25,7 +25,7 @@ interface IProfileInputProps {
 /** Компонент инпута для раздела "Профайл". */
 class ProfileInput extends Block {
     constructor(props: IProfileInputProps) {
-        super({
+        super('div', {
             ...props,
         });
     }

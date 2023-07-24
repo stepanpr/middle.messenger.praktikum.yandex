@@ -41,7 +41,7 @@ class ProfileLayout extends Block {
             }
             return profilePage;
         };
-        super({ profilePage: setProfilePage(), backButton });
+        super('div', { profilePage: setProfilePage(), backButton });
     }
 
     render() {

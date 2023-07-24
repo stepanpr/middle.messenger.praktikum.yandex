@@ -16,7 +16,7 @@ class Error500 extends Block {
                 button: 'error500__back-to-chats profile__btn-link',
             },
         });
-        super({ ...props, backToChatsButton });
+        super('div', { ...props, backToChatsButton });
     }
 
     render(): DocumentFragment {

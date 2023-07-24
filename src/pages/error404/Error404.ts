@@ -17,7 +17,7 @@ class Error404 extends Block {
             },
         });
 
-        super({ ...props, backToChatsButton });
+        super('div', { ...props, backToChatsButton });
     }
 
     render(): DocumentFragment {

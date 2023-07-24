@@ -3,11 +3,22 @@ import Button from '../../../shared/ui/Button/Button';
 import ProfileInput from '../../../shared/ui/ProfileInput/ProfileInput';
 import Avatar from '../../../shared/ui/Avatar/Avatar';
 import Router from '../../../app/Router';
-import { SIGNIN_PATH } from '../../../shared/constants';
-import { IUser } from '../../../shared/interfaces';
+import { ROUTES } from '../../../shared/constants';
 import profileGeneralTemplate from './profileGeneral.hbs';
 import AuthController from '../../../shared/controllers/AuthController';
 import store from '../../../app/Store';
+
+export interface IUser {
+    id?: number;
+    first_name?: string;
+    second_name?: string;
+    login?: string;
+    display_name?: string;
+    email?: string;
+    password?: string;
+    phone?: string;
+    avatar?: string;
+}
 
 class ProfileGeneral extends Block {
     constructor(props?: IUser) {
@@ -99,7 +110,7 @@ class ProfileGeneral extends Block {
             events: {
                 click: () => {
                     AuthController.logout();
-                    Router.go(SIGNIN_PATH);
+                    Router.go(ROUTES.SIGNIN);
                 },
             },
             styles: {
@@ -107,7 +118,7 @@ class ProfileGeneral extends Block {
             },
         });
 
-        super({
+        super('div', {
             emailProfileInput,
             loginProfileInput,
             firstNameProfileInput,

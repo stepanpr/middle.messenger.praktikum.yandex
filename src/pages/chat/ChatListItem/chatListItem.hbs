@@ -1,0 +1,20 @@
+
+<li class="chat-list-item {{#if active}}chat-list-item_active{{/if}}">
+
+    <div class="chat-list-item__wrapper">
+        <div class="chat-list-item__avatar">
+            <img src={{avatarPath}} alt="Avatar">
+        </div>
+		<div class="chat-list-item__info-wrapper">
+			<p class="chat-list-item__title">{{title}}</p>
+			<p class="chat-list-item__subtitle">{{subtitle}}</p>
+			<span class="chat-list-item__date-time">{{date}}</span>
+			{{#if newMessage}}
+			<span class={{chat__new_message}}>{{>dots newMessage}}...</span>
+			{{/if}}
+		</div>
+    </div>
+    <div class='chat-list-item__delete-button'>
+        {{{deleteButton}}}
+    </div>
+</li>

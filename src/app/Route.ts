@@ -24,7 +24,7 @@ class Route {
 
     render() {
         if (!this.block) {
-            this.block = new this.BlockClass({});
+            this.block = new this.BlockClass('div', {});
 
             renderDom(this.query, this.block);
         }

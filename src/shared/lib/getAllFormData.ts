@@ -1,4 +1,4 @@
-import { IRegisterFormData } from '../interfaces';
+import { IRegisterFormData } from '../../pages/register/Register';
 
 export const getAllFormData = (event: Event, formName: string): IRegisterFormData => {
     event.preventDefault();
@@ -16,8 +16,7 @@ export const getAllFormData = (event: Event, formName: string): IRegisterFormDat
     ) as NodeListOf<HTMLInputElement>;
     inputs.forEach(
         (input) =>
-            (result[input.name as keyof IRegisterFormData] =
-                input.value || input.defaultValue)
+            (result[input.name as keyof IRegisterFormData] = input.value || input.defaultValue)
     );
     return result;
 };

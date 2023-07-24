@@ -3,7 +3,7 @@ import profileChangePasswordTemplate from './profileChangePassword.hbs';
 import ProfileInput from '../../../shared/ui/ProfileInput/ProfileInput';
 import Button from '../../../shared/ui/Button/Button';
 import Avatar from '../../../shared/ui/Avatar/Avatar';
-import { IUser } from '../../../shared/interfaces';
+import { IUser } from '../ProfileGeneral/ProfileGeneral';
 import { checkInput, checkSubmitForm, clearError, rules } from '../../../shared/lib/handleErrors';
 import UserController from '../../../shared/controllers/UserController';
 import { getAllFormData } from '../../../shared/lib/getAllFormData';
@@ -77,7 +77,7 @@ class ProfileChangePassword extends Block {
             },
         });
 
-        super({
+        super('div', {
             ...props,
             avatar,
             oldPasswordProfileInput,

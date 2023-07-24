@@ -12,7 +12,7 @@ interface ButtonInterface {
 
 class Button extends Block {
     constructor(props: ButtonInterface) {
-        super({ ...props });
+        super( 'div',{ ...props });
     }
 
     render() {

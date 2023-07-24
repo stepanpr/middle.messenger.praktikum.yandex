@@ -5,17 +5,22 @@ import Button from '../../shared/ui/Button/Button';
 import { checkInput, checkSubmitForm, clearError, rules } from '../../shared/lib/handleErrors';
 import Router from '../../app/Router';
 import AuthController from '../../shared/controllers/AuthController';
-import { BASE_URL, SIGNIN_PATH } from '../../shared/constants';
-import { IRegisterFormData } from '../../shared/interfaces';
+import { BASE_URL, ROUTES } from '../../shared/constants';
 
 import './register.less';
 
-interface RegisterProps {
-    action?: string;
-    additionalAction?: string;
+export interface IRegisterFormData {
+    [x: string]: string;
+    first_name: string;
+    second_name: string;
+    login: string;
+    email: string;
+    password: string;
+    phone: string;
 }
+
 class Register extends Block {
-    constructor(props: RegisterProps) {
+    constructor(props: any) {
         const emailInput = new Input({
             name: 'email',
             label: 'Почта',
@@ -106,9 +111,7 @@ class Register extends Block {
                                 }),
                                 {}
                             );
-                        AuthController.registerUser(
-                            dataWithoutComfirmPass as IRegisterFormData
-                        );
+                        AuthController.registerUser(dataWithoutComfirmPass as IRegisterFormData);
                     }
                 },
             },
@@ -118,17 +121,17 @@ class Register extends Block {
             text: 'Войти',
             type: 'submit',
             events: {
-                click: () => Router.go(SIGNIN_PATH),
+                click: () => Router.go(ROUTES.SIGNIN),
             },
             styles: {
                 button: 'register-form__sign profile__btn-link',
             },
         });
 
-        super({
+        super('div', {
             ...props,
 
-            url: `${BASE_URL}${SIGNIN_PATH}`,
+            url: `${BASE_URL}${ROUTES.SIGNIN}`,
             emailInput,
             loginInput,
             firstNameInput,
