@@ -1,4 +1,4 @@
-Opened pull request: https://github.com/stepanpr/middle.messenger.praktikum.yandex/pull/6
+[Opened pull request](https://github.com/stepanpr/middle.messenger.praktikum.yandex/pull/6)
 
 ## yandex_practicum
 
