@@ -1,9 +1,15 @@
 import Block from '../../shared/lib/Block';
+import Router from '../../app/Router';
+import { RESOURCES_URL } from '../../shared/constants';
+
 import IconButton from '../../shared/ui/IconButton/IconButton';
+import Button from '../../shared/ui/Button/Button';
+import Input from '../../shared//ui/Input/Input';
+import AddUserModal from './AddUserModal/AddUserModal';
+import ChatListItem from './ChatListItem/ChatListItem';
 
 // templates
 import chatTemplate from './chat.hbs';
-import chatListItemTemplate from './templates/chatsListItem.hbs';
 import messageTemplate from './templates/chatMessage.hbs';
 
 // icons
@@ -13,129 +19,41 @@ import attachment_icon from '../../shared/ui/icons/attachment_icon.png';
 import delivered_icon from '../../shared/ui/icons/delivered_icon.png';
 
 //usersImages
-import img_1 from '../../shared/ui/icons/img1.png';
-import img_2 from '../../shared/ui/icons/img2.jpg';
+import avatarStubIcon from '../../shared/ui/icons/no_avatar_icon.png';
+
+//Controllers and Store
+import ChatController, { ChatInerface } from '../../shared/controllers/ChatController';
+import UserController from '../../shared/controllers/UserController';
+import store, { StoreEvents } from '../../app/Store';
+import Socket from '../../shared/lib/Socket';
 
 import './chat.less';
-import './templates/chatsListItem.less';
 import './templates/chatMessage.less';
-
-/** TChatItem
- * @field userAvatar
- * @field userName
- * @field lastMessage
- * @field time
- * @field count
- */
-type TChatItem = {
-    userAvatar: any;
-    userName: string;
-    lastMessage: string;
-    time: string;
-    count: number | string;
-};
-
-const chatList: TChatItem[] = [
-    {
-        userAvatar: defaultAavatar_icon,
-        userName: 'user1',
-        lastMessage: 'last-message',
-        time: '23:30',
-        count: 2,
-    },
-    {
-        userAvatar: defaultAavatar_icon,
-        userName: 'user2',
-        lastMessage: 'last-message',
-        time: '10:59',
-        count: 1,
-    },
-    {
-        userAvatar: defaultAavatar_icon,
-        userName: 'user3',
-        lastMessage: 'last-message',
-        time: '21:01',
-        count: 5,
-    },
-    {
-        userAvatar: defaultAavatar_icon,
-        userName: 'user4',
-        lastMessage: 'last-message',
-        time: '16:59',
-        count: 4,
-    },
-];
 
 /** TMessageItem
  * @field isMyMessage
  * @field text
  * @field image
+ * @field imgAlt
  * @field time
  * @field delivered_icon
+ * @field id
  */
 type TMessageItem = {
     isMyMessage?: boolean;
     text: string;
     image?: any;
+    imgAlt: string;
     time: string;
     delivered_icon?: any;
+    id: string;
 };
 
-const messageList: TMessageItem[] = [
-    {
-        isMyMessage: true,
-        text: 'Привет',
-        time: '10:20',
-        delivered_icon,
-    },
-    {
-        text: 'Пирвет!! Как дела?',
-        time: '10:22',
-        delivered_icon,
-    },
-    {
-        isMyMessage: true,
-        text: 'Все отлично! Ты как?',
-        time: '10:37',
-        delivered_icon,
-    },
-    {
-        isMyMessage: true,
-        text: 'Смотри, фото из поездки...',
-        time: '10:52',
-        image: img_1,
-        delivered_icon,
-    },
-    {
-        text: 'Супер! А у меня сейчас такой вид...',
-        time: '11:17',
-        image: img_2,
-        delivered_icon,
-    },
-    {
-        isMyMessage: true,
-        text: 'Отлично! Ладно, скоро увидимся!',
-        time: '11:22',
-        delivered_icon,
-    },
-    {
-        text: 'Да, конечно! Пока!',
-        time: '11:25',
-        delivered_icon,
-    },
-    {
-        isMyMessage: true,
-        text: 'Пока!!',
-        time: '11:30',
-        delivered_icon,
-    },
-];
-
-/** Генерация списка сущностей на основе входящих данных. */
-const createListTemplate = <T>(items: T[], template: (params: any) => string) => {
+/** Генерация списка сущностей (сообщений) на основе входящих данных. */
+const createListTemplate = <T>(items: T[] | TMessageItem[], template: (params: any) => string) => {
     let listTemplate = ``;
 
-    items.forEach((_, i) => {
+    items?.forEach((_, i) => {
         listTemplate += template(items[i]);
     });
 
@@ -165,38 +83,276 @@ interface IChatProps {
 }
 
 class Chat extends Block {
+    private _showModal() {
+        const modalElement = (this.children.modal as Block).getContent();
+        if (modalElement) {
+            modalElement.style.display = 'block';
+        }
+    }
+
+    private _hideModal() {
+        const modalElement = (this.children.modal as Block).getContent();
+        if (modalElement) {
+            modalElement.style.display = 'none';
+        }
+    }
+
+    // Сообщения чата.
+    private chatMessages: TMessageItem[];
+
+    // Признак активного чата для добаления кнопок добавления пользователей.
+    private isActiveChat: boolean;
+
+    // Логины пользователй чата.
+    private usersOfChat: string;
+
+    // Нужно для обновления страницы после удаления последнего чата из массива.
+    private isReloaded: boolean = true;
+
+    // Заглушка если чат не выбран.
+    private isChatNotSelected: boolean = true;
+
     constructor(props?: IChatProps & IChatTemlpateContext) {
+        const { chats, user } = store.getState();
+        if (!user) {
+            UserController.getUserAndSave();
+        }
+        if (!chats) {
+            ChatController.getChats();
+        }
+
+        store.on(StoreEvents.Updated, () => {
+            const { chats, activeChat, chatToken, messages, user, socket } = store.getState();
+
+            // Если есть активный чат, то показываем конпки добавления пользователей
+            if (activeChat) {
+                this.isActiveChat = true;
+            }
+
+            // Заглушка если чат не выбран.
+            this.isChatNotSelected = activeChat === undefined ? true : false;
+            this.setProps({ isChatNotSelected: this.isChatNotSelected });
+
+            // Обноление компонента если чаты отстутствуют (после удаления единственного чата в массиве chats).
+            if (chats?.length === 0 && !this.isReloaded) {
+                location.reload();
+                this.isReloaded = true;
+            } else if (chats?.length > 0) {
+                this.isReloaded = false;
+            }
+
+            // Список пользователей текущего чата.
+            if (activeChat) {
+                ChatController.getChatUsers(activeChat?.id)?.then((response: any) => {
+                    let arr: any = [];
+
+                    JSON.parse(response.response).forEach((user: any) => {
+                        console.log('user', user);
+                        arr.push(user.login);
+                    });
+
+                    this.usersOfChat = arr.join();
+                });
+            }
+
+            // Установка названия, списка пользователей и аватара чата.
+            this.setProps({
+                chatAvatar: activeChat?.avatar ? activeChat?.avatar : defaultAavatar_icon,
+                chatName: activeChat?.title,
+                usersOfChat: this.usersOfChat,
+            });
+
+            const chatList: any[] = [];
+            chats?.forEach((chat: ChatInerface) => {
+                chatList.push(
+                    new ChatListItem({
+                        title: chat.title,
+                        subtitle: chat?.last_message?.content || '',
+                        date: chat?.last_message?.time
+                            ? new Date(chat.last_message.time).toLocaleString()
+                            : '',
+                        newMessage: chat.unread_count,
+                        active: activeChat?.id === chat.id,
+                        chatId: chat.id,
+                        avatarPath: chat.avatar ? `${RESOURCES_URL}${chat.avatar}` : avatarStubIcon,
+                        events: {
+                            click: () => {
+                                ChatController.getChats();
+
+                                chatList.forEach((chatItem: any) => {
+                                    //сравниваем ID
+                                    if (chat.id === chatItem.props.chatId) {
+                                        ChatController.getChatToketById(chat)?.then((resp: any) => {
+                                            if (!socket?.chat_id) {
+                                                const socket = new Socket({
+                                                    chatId: `${chat?.id}`,
+                                                    token: resp.token,
+                                                    userId: user?.id,
+                                                });
+                                                socket.open();
+                                                store.set('socket', socket);
+                                            }
+                                        });
+                                    } else {
+                                        socket?.close();
+                                    }
+                                });
+                            },
+                        },
+                    })
+                );
+            });
+
+            this.setProps({ chatList: chatList ? chatList : null });
+
+            if (activeChat) {
+                if (!activeChat.last_message) {
+                    this.setProps({ chatMessages: null });
+                }
+                socket?.message();
+
+                // Вывод сообщений или заглушки если чат пустой.
+                if (messages && activeChat.id && messages[activeChat.id]?.length > 0) {
+                    this.chatMessages = messages[activeChat.id]?.map((message: any) => {
+                        return {
+                            isMyMessage: user.id === message.user_id,
+                            text: message.content,
+                            image: message.file ? message.file : null,
+                            imgAlt: message.imgAlt,
+                            time: message?.time ? new Date(message?.time).toLocaleString() : '', //?
+                            delivered_icon,
+                            id: message.id,
+                        };
+                    });
+
+                    this.setProps({
+                        chatMessages: createListTemplate(this.chatMessages, messageTemplate),
+                        isChatEmpty: false,
+                    });
+                } else {
+                    this.setProps({
+                        isChatEmpty: true,
+                    });
+                }
+            }
+        });
+
         const sendButton = new IconButton({
             type: 'submit',
             icon: arrowRight_icon,
             styles: { button: 'icon-button' },
             events: {
-                click: (e) => {
-                    e.preventDefault();
-                    const message: string | null = (<HTMLInputElement>(
-                        document.querySelector('#message-input')
-                    )).value;
-
-                    console.log('Сообщение: ', message);
+                click: (event: Event) => {
+                    event.preventDefault();
+                    const { socket } = store.getState();
+                    const form: HTMLFormElement = document.forms.namedItem(
+                        '.chat-new-message'
+                    ) as HTMLFormElement;
+                    const messageInput: HTMLInputElement = document.querySelector(
+                        'input[name=message]'
+                    ) as HTMLInputElement;
+                    ChatController.getChats();
+                    socket.send({ content: messageInput.value, type: 'message' });
+                    form?.reset();
                 },
             },
         });
 
-        super({
+        const settingsButton = new Button({
+            text: 'Профиль >',
+            type: 'submit',
+            events: {
+                click: () => Router.go('/settings'),
+            },
+            styles: {
+                button: 'chats-column__profile-button profile__btn-link',
+            },
+        });
+
+        const settingsEditButton = new Button({
+            text: 'Настройки',
+            type: 'submit',
+            events: {
+                click: () => Router.go('/settings-edit'),
+            },
+            styles: {
+                button: 'chat-view__menu-button profile__btn-link',
+            },
+        });
+
+        const buttonAdd = new Button({
+            text: '+',
+            type: 'button',
+            styles: { button: 'chatActionButtons' },
+            events: {
+                click: () => {
+                    store.set('modal', 'add');
+                    this._showModal();
+                },
+            },
+        });
+
+        const buttonDelete = new Button({
+            text: '-',
+            type: 'button',
+            styles: { button: 'chatActionButtons' },
+            events: {
+                click: () => {
+                    store.set('modal', 'remove');
+                    this._showModal();
+                },
+            },
+        });
+
+        const newChatInput = new Input({
+            name: 'newСhat',
+            label: 'Создать чат (введите название):',
+            type: 'text',
+            styles: { input: 'input-new-chat' },
+            events: {},
+        });
+
+        const createNewChat = new Button({
+            text: 'Создать',
+            type: 'submit',
+            styles: { button: 'button-new-chat' },
+            events: {
+                click: (event: any) => {
+                    event.preventDefault();
+                    if (event.target && event.target.form[0]?.value) {
+                        ChatController.createNewChat(event.target.form[0].value)?.then(() => {
+                            event.target.form[0].value = null;
+                        });
+                    }
+                },
+            },
+        });
+
+        const modal = new AddUserModal({
+            handleClose: () => {
+                this._hideModal();
+            },
+        });
+
+        super('div', {
             props,
-            mainAvatar: defaultAavatar_icon,
             mainName: props?.mainName,
             sendButton,
+            settingsButton,
+            settingsEditButton,
+            newChatInput,
+            createNewChat,
+            modal,
+            buttonAdd,
+            buttonDelete,
         });
     }
 
     render() {
         return this.compile(chatTemplate, {
             ...this.props,
-            arrowRight_icon,
+            isActiveChat: this.isActiveChat,
             attachment_icon,
-            messagesList: createListTemplate(messageList, messageTemplate),
-            chatList: createListTemplate(chatList, chatListItemTemplate),
         });
     }
 }

@@ -1,20 +1,14 @@
 {
     "compilerOptions": {
-	"lib": ["dom", "dom.iterable", "esnext"],
-    "outDir": "dist",
-    "target": "es2016",
-    "declaration": false,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-	"skipLibCheck": true,
-    "strictNullChecks": false,
-	"noImplicitAny": true,
-	"noUnusedLocals": true,
-	"noUnusedParameters": true,
-	"sourceMap": true,
-   },
-   "include": ["src", "types.d.ts"],
-   "exclude": ["node_modules"],
+        "target": "es2022",
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "sourceMap": true,
+        "strictNullChecks": true,
+        "esModuleInterop": true,
+        "moduleResolution": "nodenext"
+    },
+    "include": ["./src/**/*", "types.d.ts"],
+    "exclude": ["node_modules", "dist"]
 }

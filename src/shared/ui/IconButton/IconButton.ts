@@ -11,7 +11,7 @@ interface IconButtonProps {
 
 class IconButton extends Block {
     constructor(props: IconButtonProps) {
-        super({ ...props });
+        super('div',{ ...props });
     }
 
     render(): DocumentFragment {

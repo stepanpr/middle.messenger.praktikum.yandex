@@ -1,4 +1,5 @@
 import Block from '../../shared/lib/Block';
+import BackButton from '../../shared/ui/BackButton/BackButton';
 
 //profileLayoutTemplate
 import profileLayoutTemplate from './profileLayout.hbs';
@@ -7,63 +8,47 @@ import profileLayoutTemplate from './profileLayout.hbs';
 import ProfileGeneral from './ProfileGeneral/ProfileGeneral';
 import ProfileEdit from './profileEdit/ProfileEdit';
 import ProfileChangePassword from './profileChangePassword/ProfileChangePassword';
-import ProfileUploadAvatar from './profileUploadAvatar/ProfileUploadAvatar';
 
 //icons
 import arrowLeft_icon from '../../shared/ui/icons/arrow_left_icon.png';
-import noAvatar_icon from '../../shared/ui/icons/no_avatar_icon.png';
+
+import AuthController from '../../shared/controllers/AuthController';
+import store from '../../app/Store';
 
 import './profile.less';
 import './profilePages.less';
 
-/** Контекст страниц профиля.
- * @param arrowLeft_icon Иконка для кнопки "Назад".
- * @param profilePage Текущий шаблон страницы Профиля.
- * @param profileUploadAvatarModal Модальное окно загрузки аватара.
- */
-interface IProfileLayoutContext {
-    arrowLeft_icon?: File | string;
-    profilePage?: Block;
-    profileUploadAvatarModal?: Block;
-}
-
-/** Пропсы лейаута страницы профиля.
- * @prop path Путь соответствующий странице профиля.
- */
-interface IProfileProps {
-    path: 'profile' | 'profile-edit' | 'profile-change-password';
-}
-
 class ProfileLayout extends Block {
-    private isUploadAvatarModalOpen: boolean = false;
+    constructor(props: any) {
+        const backButton = new BackButton({});
 
-    constructor(props?: IProfileProps & IProfileLayoutContext) {
+        const { user } = store.getState();
+        if (!user) {
+            AuthController.getUser()?.then((data: any) => {
+                store.set('user', data);
+            });
+        }
+
         /** Функция возвращающая экземпляр класса в соответствии с роутом path. */
-        const setProfilePage = (path: string) => {
+        const setProfilePage = () => {
             let profilePage = null;
-            if (path === 'profile') {
-                profilePage = new ProfileGeneral({ userAvatar: noAvatar_icon, name: 'Иван' });
-            } else if (path === 'profile-edit') {
-                profilePage = new ProfileEdit({ userAvatar: noAvatar_icon });
-            } else if (path === 'profile-change-password') {
-                profilePage = new ProfileChangePassword({ userAvatar: noAvatar_icon });
+            if (window.location.pathname === '/settings') {
+                profilePage = new ProfileGeneral();
+            } else if (window.location.pathname === '/settings-edit') {
+                profilePage = new ProfileEdit();
+            } else if (window.location.pathname === '/settings-edit-pass') {
+                profilePage = new ProfileChangePassword();
             }
             return profilePage;
         };
-        super({ profilePage: setProfilePage(props.path) });
+        super('div', { profilePage: setProfilePage(), backButton });
     }
 
     render() {
-        return this.compile(
-            profileLayoutTemplate,
-
-            {
-                ...this.props,
-                arrowLeft_icon,
-                profileUploadAvatarModal:
-                    (this.isUploadAvatarModalOpen && ProfileUploadAvatar()) || null,
-            }
-        );
+        return this.compile(profileLayoutTemplate, {
+            ...this.props,
+            arrowLeft_icon,
+        });
     }
 }
 

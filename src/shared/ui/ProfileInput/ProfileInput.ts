@@ -25,13 +25,16 @@ interface IProfileInputProps {
 /** Компонент инпута для раздела "Профайл". */
 class ProfileInput extends Block {
     constructor(props: IProfileInputProps) {
-        super({
+        super('div', {
             ...props,
         });
     }
 
     render() {
-        return this.compile(inputTemplate, { ...this.props });
+        return this.compile(inputTemplate, {
+            ...this.props,
+            isDisabled: this.props.disabled && 'disabled',
+        });
     }
 }
 

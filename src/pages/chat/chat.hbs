@@ -1,31 +1,64 @@
+<div>
 <div class='chat-wrapper'>
 
     <div class='chats-column'>
         <div class='chats-column__header'>
-            <button class='chats-column__profile-button' type="button">Профиль ></button>
+			{{{settingsButton}}}
+
+			<form class="chats-column__create-new-chat">
+				{{{newChatInput}}}
+				{{{createNewChat}}}
+			</form>
             <input class='chats-column__search-input' name='chat-search' placeholder='Поиск' />
         </div>
-        <ul class='chats-column_chat-list'>{{{chatList}}}</ul>
+        <ul class='chats-column_chat-list'>
+			{{#each chatList}}
+            	{{{chatList}}}
+        	{{/each}}
+		</ul>
     </div>
 
     <div class='chat-view'>
 
         <div class='chat-view__header'>
+			{{#if isActiveChat}}
             <div class='chat-view__userinfo'>
-                <img class='chat-view__avatar' src={{mainAvatar}} alt={{mainName}} />
-                <span class='chat-view__username'>{{mainName}}</span>
+                <img class='chat-view__avatar' src={{chatAvatar}} alt={{mainName}} />
+                <span class='chat-view__chat-name'>{{chatName}}</span>
+                <span class='chat-view__users-of-chat'>({{usersOfChat}})</span>
+
             </div>
-            <button class='chat-view__menu-button' type="button">Настройки</button>
+			<div class="chat-view__actions">
+			<p>Добавить/удалить пользователя:</p>
+			{{{buttonAdd}}}
+			{{{buttonDelete}}}
+			{{{dots}}}
+
+			</div>
+			{{/if}}
+
         </div>
 
-        <ul class='chat-view__messages-list'>{{{messagesList}}}</ul>
+		{{#if isChatNotSelected}}
+            <div class="chat-view__empty">Создайте новый чат или выберите существующий.</div>
+        {{else}}
+		{{#if isChatEmpty}}
+			<div class="chat-view__empty">Сообщения отсутствуют.</div>
+		{{else}}
+			<ul class='chat-view__messages-list'>{{{chatMessages}}}</ul>
+		{{/if}}
+        {{/if}}
 
         <form class='chat-new-message'>
-            <img class='chat-new-message__attach-img' src={{attachment_icon}} alt="Прикрепить вложение" />
+			<label class={{labelClass}}>
+				<img  class='chat-new-message__attach-img' src={{attachment_icon}} alt="Прикрепить вложение">
+				<input type="file" name='hidden' hidden>
+			</label>
             <input placeholder='Сообщение' name='message' id='message-input' class='chat-new-message__input' type='text' />
 			{{{sendButton}}}
         </form>
 
     </div>
-
+</div>
+	{{{modal}}}
 </div>

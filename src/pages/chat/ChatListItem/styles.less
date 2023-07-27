@@ -1,0 +1,65 @@
+@import url(./../../../shared/common.less);
+
+
+.chat-list-item {
+	border-bottom: 1px solid @colGray;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	height: 70px;
+}
+
+.chat-list-item:hover {
+	background-color: @colLightestGray;
+}
+
+.chat-list-item_active {
+	background-color: @colLightGray;
+
+}
+
+.chat-list-item__avatar {
+	display: flex;
+	margin-right: 10px;
+}
+
+.chat-list-item__wrapper {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+
+	.chat-list-item__info-wrapper {
+		display: flex;
+		flex-direction: column;
+
+		.chat-list-item__title {
+			font-size: 14px;
+			font-weight: 600;
+		}
+	
+		.chat-list-item__subtitle {
+			font-size: 12px;
+		}
+	
+		.chat-list-item__date-time{
+			font-size: 10px;
+			color: @colGray;
+		}
+	
+	}
+}
+
+.chat-list-item__delete-button img {
+	width: 27px;
+	border-radius: 10px;
+}
+
+
+
+
+
+
+
+
