@@ -5,7 +5,6 @@ import { parseJson } from '../lib/parseJson';
 class UserController {
     getUserAndSave = () => {
         return UserApi.getUser()?.then((data: any) => {
-            console.log(data);
             store.set('user', parseJson(data.response));
         });
     };

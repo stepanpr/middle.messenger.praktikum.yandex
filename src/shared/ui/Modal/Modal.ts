@@ -42,7 +42,6 @@ class Modal extends Block {
                 click: () => {
                     let modal = document.querySelector('.modal');
                     if (modal) (modal as any).style.display = 'none';
-                    console.log(modal);
                 },
             },
             styles: { button: 'closeButton' },

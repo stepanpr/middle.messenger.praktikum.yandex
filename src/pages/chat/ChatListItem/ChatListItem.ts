@@ -18,7 +18,6 @@ interface IChatListItemProps {
 
 class ChatListItem extends Block {
     constructor(props: IChatListItemProps) {
-        console.log(props.events.deleteChat);
         const deleteButton = new IconButton({
             icon: delete_icon,
             type: 'button',

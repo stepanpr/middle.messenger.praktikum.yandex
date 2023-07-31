@@ -34,8 +34,6 @@ class AddUserModal extends Block {
         store.on(StoreEvents.Updated, () => {
             const { modalUsersParam, usersOfChat, activeChat, user } = store.getState();
 
-            console.log('usersOfChat_in_modal: ', usersOfChat);
-
             // Инпут для ввода логина.
             const userId: HTMLInputElement = document.querySelector(
                 'input[name=searchInput]'
@@ -62,21 +60,13 @@ class AddUserModal extends Block {
                             }
 
                             UserController.getUserByLogin(userId.value).then((response: any) => {
-                                console.log('result', response, ' -----------------');
-
-                                console.log('result', response.status, '');
-
                                 if (response.status === 200) {
-                                    console.log('result', response.status);
-
                                     const { id, login } =
                                         (Object.values(
                                             JSON.parse(response.response)
                                         )[0] as IUser) || {};
 
                                     if (id && usersOfChat.includes(login)) {
-                                        console.log('result', login);
-
                                         ChatController.deleteUser(activeChat?.id, [id]);
                                         userId.value = '';
                                         props.handleClose();
@@ -108,17 +98,12 @@ class AddUserModal extends Block {
 
                             UserController.getUserByLogin(userId.value).then((response: any) => {
                                 if (response.status === 200) {
-                                    console.log('result', response.status);
-
                                     const { id } =
                                         (Object.values(
                                             JSON.parse(response.response)
                                         )[0] as IUser) || {};
-                                    console.log('result', id);
 
                                     if (id) {
-                                        console.log('result', id);
-
                                         ChatController.addUsersToChat([id], activeChat?.id);
                                         userId.value = '';
                                         props.handleClose();
