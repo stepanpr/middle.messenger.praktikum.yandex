@@ -49,7 +49,6 @@ class ProfileEdit extends Block {
             reloadAvatar: () => {
                 setTimeout(() => {
                     AuthController.getUser()?.then((data: any) => {
-                        console.log('dataInLayout: ', data);
                         store.set('user', data);
                         avatar.setProps({ avatarPath: data.avatar });
                     });
@@ -194,7 +193,6 @@ class ProfileEdit extends Block {
                     clearInterval(pendingIneterval);
                     setFildValues(userData);
                 }
-                console.log('userData: ', userData);
             }, 150);
         } else {
             setFildValues(userData);

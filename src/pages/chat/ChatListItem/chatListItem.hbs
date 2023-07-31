@@ -9,10 +9,10 @@
 			<p class="chat-list-item__title">{{title}}</p>
 			<p class="chat-list-item__subtitle">{{subtitle}}</p>
 			<span class="chat-list-item__date-time">{{date}}</span>
-			{{#if newMessage}}
-			<span class={{chat__new_message}}>{{>dots newMessage}}...</span>
-			{{/if}}
 		</div>
+		{{#if newMessages}}
+		<span class="chat__new_message">{{newMessages}}</span>
+		{{/if}}
     </div>
     <div class='chat-list-item__delete-button'>
         {{{deleteButton}}}

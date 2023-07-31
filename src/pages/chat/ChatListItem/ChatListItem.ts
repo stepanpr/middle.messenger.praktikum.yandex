@@ -9,15 +9,16 @@ interface IChatListItemProps {
     title: string;
     subtitle: string;
     date: string;
-    newMessage: number;
+    newMessages: number;
     chatId: number;
     active?: boolean;
     avatarPath?: string;
-    events?: { [key: string]: () => void };
+    events: { [key: string]: () => void };
 }
 
 class ChatListItem extends Block {
     constructor(props: IChatListItemProps) {
+        console.log(props.events.deleteChat);
         const deleteButton = new IconButton({
             icon: delete_icon,
             type: 'button',
@@ -26,7 +27,7 @@ class ChatListItem extends Block {
                     if (event) {
                         event.preventDefault();
                         event.stopPropagation();
-                        ChatController.deleteChat(this.props.chatId);
+                        props.events.handleDeleteChat();
                     }
                 },
             },

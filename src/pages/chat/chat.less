@@ -3,6 +3,7 @@
 .chat-wrapper {
     display: flex;
     height: 100vh;
+	min-width: 1080px;
 
     .chats-column {
         width: 470px;
@@ -10,6 +11,7 @@
         padding: 0 10px;
         border-right: 2px solid @colLightestGray;
 		overflow-y: scroll;
+		overflow-x: hidden;
 
         .chats-column__header {
             display: flex;
@@ -140,6 +142,7 @@
             align-items: center;
             height: 150px;
             margin-top: 20px;
+			position: relative;
 
             .chat-new-message__attach-img {
                 width: 32px;
@@ -157,6 +160,14 @@
                 margin-right: 10px;
                 padding-left: 23px;
             }
+
+			.chat-new-message__error-text {
+				position: absolute;
+				top: 75;
+				left: 65;
+				color: @colWarning;
+				font-size: 9px;
+			}
 
             .chat-new-message__send-button {
                 width: 28px;

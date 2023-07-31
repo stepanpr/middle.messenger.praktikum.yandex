@@ -156,7 +156,6 @@ class ProfileGeneral extends Block {
                     clearInterval(pendingIneterval);
                     setFildValues(userData);
                 }
-                console.log('userData: ', userData);
             }, 150);
         } else {
             setFildValues(userData);

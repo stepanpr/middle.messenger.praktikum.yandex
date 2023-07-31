@@ -31,7 +31,6 @@ class Input extends Block {
     }
 
     render() {
-        console.log(this.props.styles);
         return this.compile(inputTemplate, {
             ...this.props,
             styles: !this.props.styles ? { input: 'input-field' } : this.props.styles,

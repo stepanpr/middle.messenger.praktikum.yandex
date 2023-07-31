@@ -34,5 +34,9 @@ class UserController {
     changeAvatar = (data: any) => {
         return UserApi.changeAvatar(data);
     };
+
+    getUserByLogin = (login: string): Promise<any> => {
+        return UserApi.getUserByLogin(login);
+    };
 }
 export default new UserController();

@@ -33,4 +33,11 @@ export class UserApi extends BaseAPI {
             data,
         });
     };
+
+    static getUserByLogin = (login: string): any => {
+        return new HTTPTransport().post(`${API_URL}/user/search`, {
+            data: { login },
+            headers: { 'content-type': 'application/json' },
+        });
+    };
 }
