@@ -1,5 +1,3 @@
-export const API_URL = 'https://ya-praktikum.tech/api/v2';
-
 interface Options {
     method?: string;
     data?: Record<string, any>;
