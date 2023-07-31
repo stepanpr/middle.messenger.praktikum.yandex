@@ -5,7 +5,6 @@ import { parseJson } from '../lib/parseJson';
 class UserController {
     getUserAndSave = () => {
         return UserApi.getUser()?.then((data: any) => {
-            console.log(data);
             store.set('user', parseJson(data.response));
         });
     };
@@ -33,6 +32,10 @@ class UserController {
 
     changeAvatar = (data: any) => {
         return UserApi.changeAvatar(data);
+    };
+
+    getUserByLogin = (login: string): Promise<any> => {
+        return UserApi.getUserByLogin(login);
     };
 }
 export default new UserController();

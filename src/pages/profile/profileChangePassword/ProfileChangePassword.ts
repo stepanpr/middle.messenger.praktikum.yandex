@@ -67,7 +67,6 @@ class ProfileChangePassword extends Block {
                         const data = getAllFormData(event, 'passwordChange');
                         if (Object.hasOwn(data, 'oldPassword')) {
                             UserController.changePassword(data)?.then((res) => {
-                                console.log(res);
                                 alert('Пароль успешно изменен!');
                             });
                             return;
@@ -103,7 +102,6 @@ class ProfileChangePassword extends Block {
                     clearInterval(pendingIneterval);
                     setFildValues(userData);
                 }
-                console.log('userData: ', userData);
             }, 150);
         } else {
             setFildValues(userData);

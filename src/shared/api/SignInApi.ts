@@ -1,5 +1,6 @@
-import HTTPTransport, { API_URL } from '../lib/HTTPTransport';
+import HTTPTransport from '../lib/HTTPTransport';
 import { BaseAPI } from './BaseAPI';
+import { API_URL } from '../../shared/constants';
 
 /** Интерфейс авторизации. */
 export interface LoginFormDataInterface {

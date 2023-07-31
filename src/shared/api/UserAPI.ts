@@ -1,5 +1,6 @@
-import HTTPTransport, { API_URL } from '../lib/HTTPTransport';
+import HTTPTransport from '../lib/HTTPTransport';
 import { BaseAPI } from './BaseAPI';
+import { API_URL } from '../../shared/constants';
 
 export class UserApi extends BaseAPI {
     static getUser = (): Promise<unknown> | undefined => {
@@ -31,6 +32,13 @@ export class UserApi extends BaseAPI {
     static changeAvatar = (data: FormData) => {
         return new HTTPTransport().put(`${API_URL}/user/profile/avatar`, {
             data,
+        });
+    };
+
+    static getUserByLogin = (login: string): any => {
+        return new HTTPTransport().post(`${API_URL}/user/search`, {
+            data: { login },
+            headers: { 'content-type': 'application/json' },
         });
     };
 }

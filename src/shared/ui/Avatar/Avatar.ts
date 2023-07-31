@@ -22,7 +22,7 @@ class Avatar extends Block {
     constructor(props: IAvatarProps) {
         const url = 'https://ya-praktikum.tech/api/v2/resources';
 
-        super('div',{
+        super('div', {
             ...props,
             avatarStubIcon: props.avatarStubIcon ? props.avatarStubIcon : avatarStubIcon,
             url,
@@ -30,7 +30,6 @@ class Avatar extends Block {
     }
 
     render(): DocumentFragment {
-		console.log('props.avatarStubIcon', this.props.avatarStubIcon)
         return this.compile(avatarTemplate, {
             ...this.props,
         });

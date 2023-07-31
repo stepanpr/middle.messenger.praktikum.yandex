@@ -9,11 +9,11 @@ interface IChatListItemProps {
     title: string;
     subtitle: string;
     date: string;
-    newMessage: number;
+    newMessages: number;
     chatId: number;
     active?: boolean;
     avatarPath?: string;
-    events?: { [key: string]: () => void };
+    events: { [key: string]: () => void };
 }
 
 class ChatListItem extends Block {
@@ -26,7 +26,7 @@ class ChatListItem extends Block {
                     if (event) {
                         event.preventDefault();
                         event.stopPropagation();
-                        ChatController.deleteChat(this.props.chatId);
+                        props.events.handleDeleteChat();
                     }
                 },
             },

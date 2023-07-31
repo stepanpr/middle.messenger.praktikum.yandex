@@ -1,6 +1,5 @@
 @import url(./../../../shared/common.less);
 
-
 .chat-list-item {
 	border-bottom: 1px solid @colGray;
 	display: flex;
@@ -28,7 +27,7 @@
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-
+	position: relative;
 
 	.chat-list-item__info-wrapper {
 		display: flex;
@@ -47,7 +46,17 @@
 			font-size: 10px;
 			color: @colGray;
 		}
-	
+	}
+
+	.chat__new_message {
+		background-color: @colPrimary;
+		color: @colLightestGray;
+		font-size: 12px;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		border-radius: 50%;
+		padding: 1px;
 	}
 }
 
@@ -55,11 +64,3 @@
 	width: 27px;
 	border-radius: 10px;
 }
-
-
-
-
-
-
-
-

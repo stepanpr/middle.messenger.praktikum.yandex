@@ -1,5 +1,6 @@
-import HTTPTransport, { API_URL } from '../lib/HTTPTransport';
+import HTTPTransport from '../lib/HTTPTransport';
 import { BaseAPI } from './BaseAPI';
+import { API_URL } from '../../shared/constants';
 
 const BASE_CHAT_API = `${API_URL}/chats`;
 class ChatApi extends BaseAPI {

@@ -60,38 +60,29 @@ const createListTemplate = <T>(items: T[] | TMessageItem[], template: (params: a
     return listTemplate;
 };
 
-/** Контекст шаблона чата.
- * @param arrowRight_icon Значок для кнопки "Отправить".
- * @param attachment_icon Иконка кнопки вложения.
- * @param messagesList Список сообщений.
- * @param chatList Список чатов.
- */
-interface IChatTemlpateContext {
-    arrowRight_icon?: File | string;
-    attachment_icon?: File | string;
-    messagesList?: string;
-    chatList?: string;
-}
-
 /** Пропсы чата.
  * @prop mainName Имя пользователя.
  * @prop mainAvatar Аватар пользователя.
+ * @prop chatMessages Список сообщений.
+ * @prop chatList Список чатов.
  */
 interface IChatProps {
     mainName?: string;
     mainAvatar?: File | string;
+    chatMessages?: any;
+    chatList?: ChatInerface[];
 }
 
 class Chat extends Block {
     private _showModal() {
-        const modalElement = (this.children.modal as Block).getContent();
+        const modalElement = (this.children.modalUsers as Block).getContent();
         if (modalElement) {
             modalElement.style.display = 'block';
         }
     }
 
     private _hideModal() {
-        const modalElement = (this.children.modal as Block).getContent();
+        const modalElement = (this.children.modalUsers as Block).getContent();
         if (modalElement) {
             modalElement.style.display = 'none';
         }
@@ -100,11 +91,11 @@ class Chat extends Block {
     // Сообщения чата.
     private chatMessages: TMessageItem[];
 
-    // Признак активного чата для добаления кнопок добавления пользователей.
+    // Признак активного чата для отображения заглушки и кнопок добавления пользователей.
     private isActiveChat: boolean;
 
     // Логины пользователй чата.
-    private usersOfChat: string;
+    private usersOfChat: [];
 
     // Нужно для обновления страницы после удаления последнего чата из массива.
     private isReloaded: boolean = true;
@@ -112,7 +103,22 @@ class Chat extends Block {
     // Заглушка если чат не выбран.
     private isChatNotSelected: boolean = true;
 
-    constructor(props?: IChatProps & IChatTemlpateContext) {
+    // Список пользователей текущего чата.
+    getUsersOfChat = async (activeChat: ChatInerface) => {
+        if (activeChat) {
+            console.log('activeChat', activeChat);
+            let arr: any = [];
+
+            await ChatController.getChatUsers(activeChat?.id)?.then((response: any) => {
+                Object.values(JSON.parse(response.response)).forEach((user: any) => {
+                    arr.push(user.login);
+                });
+                this.usersOfChat = arr;
+            });
+        }
+    };
+
+    constructor(props?: IChatProps) {
         const { chats, user } = store.getState();
         if (!user) {
             UserController.getUserAndSave();
@@ -124,13 +130,8 @@ class Chat extends Block {
         store.on(StoreEvents.Updated, () => {
             const { chats, activeChat, chatToken, messages, user, socket } = store.getState();
 
-            // Если есть активный чат, то показываем конпки добавления пользователей
-            if (activeChat) {
-                this.isActiveChat = true;
-            }
-
             // Заглушка если чат не выбран.
-            this.isChatNotSelected = activeChat === undefined ? true : false;
+            this.isChatNotSelected = !activeChat || !this.isActiveChat ? true : false;
             this.setProps({ isChatNotSelected: this.isChatNotSelected });
 
             // Обноление компонента если чаты отстутствуют (после удаления единственного чата в массиве chats).
@@ -141,43 +142,41 @@ class Chat extends Block {
                 this.isReloaded = false;
             }
 
-            // Список пользователей текущего чата.
-            if (activeChat) {
-                ChatController.getChatUsers(activeChat?.id)?.then((response: any) => {
-                    let arr: any = [];
-
-                    JSON.parse(response.response).forEach((user: any) => {
-                        console.log('user', user);
-                        arr.push(user.login);
-                    });
-
-                    this.usersOfChat = arr.join();
-                });
-            }
+            this.getUsersOfChat(activeChat);
 
             // Установка названия, списка пользователей и аватара чата.
             this.setProps({
                 chatAvatar: activeChat?.avatar ? activeChat?.avatar : defaultAavatar_icon,
                 chatName: activeChat?.title,
-                usersOfChat: this.usersOfChat,
+                activeChat,
+                usersOfChat: this.usersOfChat?.join(', '),
             });
+
+            // Также записываем поле usersOfChat в стор.
+            if (this.usersOfChat !== store.getState().usersOfChat) {
+                store.set('usersOfChat', this.usersOfChat);
+            }
 
             const chatList: any[] = [];
             chats?.forEach((chat: ChatInerface) => {
                 chatList.push(
                     new ChatListItem({
                         title: chat.title,
-                        subtitle: chat?.last_message?.content || '',
+                        subtitle:
+                            (chat?.last_message?.content && chat?.last_message?.content.length > 32
+                                ? chat?.last_message?.content.substring(0, 21) + '...'
+                                : chat?.last_message?.content) || '',
                         date: chat?.last_message?.time
                             ? new Date(chat.last_message.time).toLocaleString()
                             : '',
-                        newMessage: chat.unread_count,
+                        newMessages: chat.unread_count,
                         active: activeChat?.id === chat.id,
                         chatId: chat.id,
                         avatarPath: chat.avatar ? `${RESOURCES_URL}${chat.avatar}` : avatarStubIcon,
                         events: {
                             click: () => {
                                 ChatController.getChats();
+                                this.isActiveChat = true;
 
                                 chatList.forEach((chatItem: any) => {
                                     //сравниваем ID
@@ -197,6 +196,11 @@ class Chat extends Block {
                                         socket?.close();
                                     }
                                 });
+                            },
+
+                            handleDeleteChat: () => {
+                                ChatController.deleteChat(chat?.id);
+                                this.isActiveChat = false;
                             },
                         },
                     })
@@ -251,8 +255,16 @@ class Chat extends Block {
                     const messageInput: HTMLInputElement = document.querySelector(
                         'input[name=message]'
                     ) as HTMLInputElement;
+
                     ChatController.getChats();
-                    socket.send({ content: messageInput.value, type: 'message' });
+
+                    if (messageInput.value !== '') {
+                        socket.send({ content: messageInput.value, type: 'message' });
+                        this.setProps({ errorText: null });
+                    } else {
+                        this.setProps({ errorText: 'Собщение не может быть пустым' });
+                    }
+
                     form?.reset();
                 },
             },
@@ -286,7 +298,7 @@ class Chat extends Block {
             styles: { button: 'chatActionButtons' },
             events: {
                 click: () => {
-                    store.set('modal', 'add');
+                    store.set('modalUsersParam', 'add');
                     this._showModal();
                 },
             },
@@ -298,7 +310,7 @@ class Chat extends Block {
             styles: { button: 'chatActionButtons' },
             events: {
                 click: () => {
-                    store.set('modal', 'remove');
+                    store.set('modalUsersParam', 'remove');
                     this._showModal();
                 },
             },
@@ -328,7 +340,7 @@ class Chat extends Block {
             },
         });
 
-        const modal = new AddUserModal({
+        const modalUsers = new AddUserModal({
             handleClose: () => {
                 this._hideModal();
             },
@@ -342,9 +354,10 @@ class Chat extends Block {
             settingsEditButton,
             newChatInput,
             createNewChat,
-            modal,
+            modalUsers,
             buttonAdd,
             buttonDelete,
+            usersOfChat: store.getState().usersOfChat,
         });
     }
 

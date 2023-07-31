@@ -3,6 +3,7 @@
 .input-wrapper {
     display: flex;
     flex-direction: column;
+	position: relative;
 
 	.input__label {
 		font-size: 12px;
@@ -17,6 +18,16 @@
 		margin-top: 8px;
 		outline: none;
     }
+
+	.input__error-text {
+		display: block;
+		top: 42px;
+		left: 0;
+		color: red;
+		font-size: 9px;
+		width: 510px;
+		position: absolute;
+  }
 }
 
 .file-upload__label input[type="file"] {
