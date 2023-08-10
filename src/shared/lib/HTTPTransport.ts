@@ -1,67 +1,80 @@
-enum METHOD {
+interface Options {
+    method?: string;
+    data?: Record<string, any>;
+    headers?: Record<string, any>;
+    timeout?: number;
+}
+
+const enum Methods {
     GET = 'GET',
-    POST = 'POST',
     PUT = 'PUT',
+    POST = 'POST',
     DELETE = 'DELETE',
 }
 
-type Options = {
-    method: METHOD;
-    data?: any;
-    headers?: Record<string, string>;
-    timeout?: number;
+type HTTPMethod = (url: string, options?: Options) => Promise<unknown> | undefined;
+
+const queryStringify = (data: Record<string, any>): string => {
+    if (typeof data !== 'object') {
+        throw new Error('Data must be object');
+    }
+    return Object.keys(data)
+        .reduce((acc, cur) => `${acc}${cur}=${data[cur]}&`, '?')
+        .slice(0, -1);
 };
 
-const queryStringify = (data: string): string => {
-    if (!data) throw new Error('Не переданы данные!');
-    return `?${Object.entries(data)
-        .map((pair) => pair.join('='))
-        .join('&')}`;
-};
+class HTTPTransport {
+    get: HTTPMethod = (url, options = {}) => {
+        const { data } = options;
+        if (data) `${url}${queryStringify(data)}`;
 
-export class HTTPTransport {
-    get = (url: string, options: Options) => {
-        return this.request(
-            url + '' + queryStringify(options.data),
-            { ...options, method: METHOD.GET },
-            options.timeout
-        );
+        return this.request(url, { ...options, method: Methods.GET }, options.timeout);
     };
 
-    post = (url: string, options: Options) => {
-        return this.request(url, { ...options, method: METHOD.POST }, options.timeout);
+    put: HTTPMethod = (url, options = {}) => {
+        return this.request(url, { ...options, method: Methods.PUT }, options.timeout);
     };
 
-    put = (url: string, options: Options) => {
-        return this.request(url, { ...options, method: METHOD.PUT }, options.timeout);
+    post: HTTPMethod = (url, options = {}) => {
+        return this.request(url, { ...options, method: Methods.POST }, options.timeout);
     };
 
-    delete = (url: string, options: Options) => {
-        return this.request(url, { ...options, method: METHOD.DELETE }, options.timeout);
+    delete: HTTPMethod = (url, options = {}) => {
+        return this.request(url, { ...options, method: Methods.DELETE }, options.timeout);
     };
 
-    request = (url: string, options: Options, timeout = 5000): Promise<XMLHttpRequest> => {
+    request = (url: string, options: Options, timeout = 5000) => {
         const { method, data, headers } = options;
-
+        if (typeof url !== 'string') return;
+        if (method === undefined) return;
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             xhr.open(method, url);
-            xhr.timeout = timeout;
-            if (headers) {
-                Object.entries(headers).forEach(([header, value]) =>
-                    xhr.setRequestHeader(header, value)
-                );
+
+            for (const headerName in headers) {
+                xhr.setRequestHeader(headerName, headers[headerName]);
             }
 
-            xhr.onload = () => resolve(xhr);
+            xhr.withCredentials = true;
+            xhr.onload = function () {
+                resolve(xhr);
+            };
             xhr.onabort = reject;
             xhr.onerror = reject;
-            xhr.ontimeout = reject;
+            xhr.timeout = timeout;
+            xhr.ontimeout = function () {
+                reject();
+            };
 
-            if (method === METHOD.GET || !data) xhr.send();
-            else xhr.send(data);
+            if (method === Methods.GET || !data) {
+                xhr.send();
+            } else if (data instanceof FormData) {
+                xhr.send(data);
+            } else {
+                xhr.send(JSON.stringify(data));
+            }
         });
     };
 }
 
-export default new HTTPTransport();
+export default HTTPTransport;

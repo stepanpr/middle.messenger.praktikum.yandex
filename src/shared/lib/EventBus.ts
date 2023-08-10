@@ -1,15 +1,12 @@
 class EventBus {
-    listeners: Record<string, any[]>;
-
-    constructor() {
-        this.listeners = {};
-    }
+    private readonly listeners: Record<string, any[]> = {};
 
     on(event: string, callback: any) {
         if (!this.listeners[event]) {
             this.listeners[event] = [];
         }
-        this.listeners[event].push(callback);
+
+        this.listeners[event]?.push(callback);
     }
 
     off(event: string, callback: any) {
@@ -17,15 +14,15 @@ class EventBus {
             throw new Error(`Нет события: ${event}`);
         }
 
-        this.listeners[event] = this.listeners[event].filter((listener) => listener !== callback);
+        this.listeners[event] = this.listeners[event]!.filter((listener) => listener !== callback);
     }
 
     emit(event: string, ...args: any[]) {
         if (!this.listeners[event]) {
-            throw new Error(`Нет события: ${event}`);
+            return;
         }
 
-        this.listeners[event].forEach((listener) => {
+        this.listeners[event]!.forEach((listener) => {
             listener(...args);
         });
     }

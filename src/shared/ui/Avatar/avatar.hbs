@@ -1,0 +1,17 @@
+<div class='profile__avatar'>
+	<img 
+		{{#if avatarPath}} src='{{url}}{{avatarPath}}'
+		{{!-- Класс применяется только в случае если есть пользовательский аватар. --}}
+		class="avatar-image"
+{{else}}
+	src={{avatarStubIcon}}
+{{/if}}
+	alt="Аватар"/>
+	{{#if hasModal}}
+	<span id='change-avatar-button' class='profile__avatar-change-button'>
+		Поменять
+		<br />
+		аватар
+	</span>
+	{{/if}}
+</div>

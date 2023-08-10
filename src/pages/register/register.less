@@ -1,5 +1,6 @@
 @import url(./../../shared/common.less);
 
+
 .register-container {
     width: 100%;
     height: calc(100vh - 41px);
@@ -40,32 +41,21 @@
                 margin-bottom: 16px;
             }
         }
-
-        .register-form__buttons {
-            margin-top: 48px;
-			margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-            .register-form__submit {
-                width: 280px;
-                height: 37px;
-                background-color: @colPrimary;
-                margin-bottom: 14px;
-                border-radius: 8px;
-                border: 0;
-                font-size: 13px;
-                color: #fff;
-            }
-
-            .register-form__sign {
-                font-size: 11px;
-                text-decoration: none;
-                color: @colPrimary;
-				margin-top: 25px;
-
-            }
-        }
     }
+}
+
+.register-form__buttons {
+	margin-top: 48px;
+	margin-bottom: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	.register-form__sign {
+		font-size: 11px;
+		text-decoration: none;
+		color: @colPrimary;
+		margin-top: 25px;
+
+	}
 }
