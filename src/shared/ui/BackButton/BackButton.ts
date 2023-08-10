@@ -11,7 +11,9 @@ interface IBackButton {
 
 class BackButton extends Block {
     constructor(props: IBackButton) {
-        super('div',{
+        if (props) {
+        }
+        super('div', {
             backIcon: arrowLeft_icon,
             events: {
                 click: () => Router.back(),

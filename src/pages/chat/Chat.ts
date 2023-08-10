@@ -128,7 +128,7 @@ class Chat extends Block {
         }
 
         store.on(StoreEvents.Updated, () => {
-            const { chats, activeChat, chatToken, messages, user, socket } = store.getState();
+            const { chats, activeChat, messages, user, socket } = store.getState();
 
             // Заглушка если чат не выбран.
             this.isChatNotSelected = !activeChat || !this.isActiveChat ? true : false;

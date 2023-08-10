@@ -30,7 +30,7 @@ class HTTPTransport {
     };
 
     put = (url: string, options: Options) => {
-        return this.request(url, { ...options, method: Methods.PUT }, options.timeout);
+        return this.request(url, { ...options, method: Methods.PUT }, options?.timeout);
     };
 
     post = (url: string, options: Options) => {

@@ -1,7 +1,6 @@
 import chatListItemTemplate from './chatListItem.hbs';
 import Block from '../../../shared/lib/Block';
 import IconButton from '../../../shared/ui/IconButton/IconButton';
-import ChatController from '../../../shared/controllers/ChatController';
 import delete_icon from '../../../shared/ui/icons/delete_icon.png';
 import './styles.less';
 
