@@ -18,6 +18,8 @@
 -   HTML, CSS, JS, Typescript
 -   Шаблонизатор Handlebars
 -   ESLint, StyleLint
+- 	Тестирование с помощью Chai и Mocka
+
 
 ### Команды для инициализации
 

@@ -6,27 +6,33 @@ const isEqual = (lhs: string, rhs: string): boolean => {
 };
 
 class Route {
-    private block: Block | null = null;
-
-    constructor(
-        private pathname: string,
-        private readonly BlockClass: typeof Block,
-        private readonly query: string
-    ) {}
+    _pathname: string;
+    _blockClass: any;
+    _block: Block | null;
+    _props: any;
+    constructor(pathname: string, view: Block, props: any) {
+        this._pathname = pathname;
+        this._blockClass = view;
+        this._block = null;
+        this._props = props;
+    }
 
     leave() {
-        this.block = null;
+        this._block = null;
     }
 
     match(pathname: string) {
-        return isEqual(pathname, this.pathname);
+        return isEqual(pathname, this._pathname);
     }
 
     render() {
-        if (!this.block) {
-            this.block = new this.BlockClass('div', {});
+        if (!this._block) {
+            this._block = new this._blockClass('div', {});
 
-            renderDom(this.query, this.block);
+            if (this._block) {
+                renderDom(this._props, this._block);
+                return;
+            }
         }
     }
 }
