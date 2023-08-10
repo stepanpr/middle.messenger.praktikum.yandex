@@ -63,7 +63,7 @@
 	
 	"husky": {
 		"hooks": {
-			"pre-commit": "echo \"[Husky] pre-commit\""
+			"applypatch-msg": "echo \"[Husky] pre-commit\""
 		}
 	},
 	
