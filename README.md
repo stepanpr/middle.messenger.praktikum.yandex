@@ -1,3 +1,5 @@
+[Opened pull request](https://github.com/stepanpr/middle.messenger.praktikum.yandex/pull/6)
+
 ## yandex_practicum
 
 ## проект - Мессенджер
@@ -16,6 +18,8 @@
 -   HTML, CSS, JS, Typescript
 -   Шаблонизатор Handlebars
 -   ESLint, StyleLint
+- 	Тестирование с помощью Chai и Mocka
+
 
 ### Команды для инициализации
 

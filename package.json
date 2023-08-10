@@ -10,7 +10,11 @@
         "eslint": "node_modules/.bin/eslint --ext .ts",
         "eslint:fix": "node_modules/.bin/eslint --fix --ext .ts",
         "stylelint": "node_modules/.bin/stylelint **/*.less",
-        "stylelint:fix": "node_modules/.bin/stylelint **/*.less --fix"
+        "stylelint:fix": "node_modules/.bin/stylelint **/*.less --fix",
+        "test": "./node_modules/.bin/mocha",
+        "validate": "npm-run-all --parallel test eslint stylelint",
+        "precommit": "npm run validate",
+        "prepare": "husky install"
     },
     "repository": {
         "type": "git",
@@ -43,7 +47,18 @@
         "stylelint": "^15.6.0",
         "stylelint-config-recommended-less": "^1.0.4",
         "typescript": "^5.0.4",
-        "uuid": "^9.0.0"
+        "uuid": "^9.0.0",
+        "@babel/cli": "^7.12.1",
+        "@babel/core": "^7.12.3",
+        "@babel/preset-env": "^7.12.1",
+        "@babel/preset-typescript": "^7.12.1",
+        "@babel/register": "^7.12.1",
+        "@types/chai": "^4.2.14",
+        "@types/mocha": "^5.2.7",
+        "chai": "^4.2.0",
+        "mocha": "latest",
+        "npm-run-all": "^4.1.5",
+        "husky": "^8.0.0"
     },
     "engines": {
         "node": ">= 12.0.0"

@@ -1,14 +1,13 @@
-import Block from './../shared/lib/Block';
 import Route from './Route';
 
 class Router {
-    private static __instance: Router;
+    static __instance: Router;
 
-    private routes: Route[] = [];
+    routes: Route[] = [];
 
-    private currentRoute: Route | null = null;
+    currentRoute: Route | null = null;
 
-    private history = window.history;
+    history: History;
 
     constructor(private readonly rootQuery: string) {
         if (Router.__instance) {
@@ -17,10 +16,13 @@ class Router {
 
         this.routes = [];
 
+        if (typeof window !== 'undefined') {
+            this.history = window.history;
+        }
         Router.__instance = this;
     }
 
-    public use(pathname: string, block: typeof Block) {
+    public use(pathname: string, block: any) {
         const route = new Route(pathname, block, this.rootQuery);
         this.routes.push(route);
 
@@ -54,7 +56,7 @@ class Router {
     }
 
     public go(pathname: string) {
-        this.history.pushState({}, '', pathname);
+        if (this.history) this.history.pushState({}, '', pathname);
 
         this._onRoute(pathname);
     }
@@ -69,6 +71,10 @@ class Router {
 
     private getRoute(pathname: string) {
         return this.routes.find((route) => route.match(pathname));
+    }
+
+    getCurrentRouter() {
+        return this.currentRoute;
     }
 }
 

@@ -139,14 +139,14 @@ class ProfileEdit extends Block {
                         const data = getAllFormData(event, 'profileChange');
 
                         UserController.changeProfile(data)
-                            ?.then((resp) => {
+                            ?.then((resp: any) => {
                                 if (resp.status === 200) {
                                     const data = parseJson(resp.response);
                                     this.setProps({ profileName: data.first_name });
                                     alert('Данные успешно изменены!');
                                 }
                             })
-                            .catch((e) => alert(e));
+                            .catch((e: any) => alert(e));
                     }
                 },
             },
