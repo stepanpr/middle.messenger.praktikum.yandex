@@ -18,6 +18,9 @@
 -   HTML, CSS, JS, Typescript
 -   Шаблонизатор Handlebars
 -   ESLint, StyleLint
+- 	Тестирование с помощью Chai и Mocha
+- 	husky (pre-commit)
+
 
 ### Команды для инициализации
 

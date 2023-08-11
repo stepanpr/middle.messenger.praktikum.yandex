@@ -66,7 +66,8 @@ class ProfileChangePassword extends Block {
                     if (allOk) {
                         const data = getAllFormData(event, 'passwordChange');
                         if (Object.hasOwn(data, 'oldPassword')) {
-                            UserController.changePassword(data)?.then((res) => {
+                            UserController.changePassword(data)?.then((res: any) => {
+                                console.log(res);
                                 alert('Пароль успешно изменен!');
                             });
                             return;

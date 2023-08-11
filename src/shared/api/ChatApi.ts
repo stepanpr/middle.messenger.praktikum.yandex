@@ -6,49 +6,86 @@ const BASE_CHAT_API = `${API_URL}/chats`;
 class ChatApi extends BaseAPI {
     getChat() {
         return new HTTPTransport().get(BASE_CHAT_API, {
-            headers: { 'content-type': 'application/json' },
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            data: {},
         });
     }
 
     getChatToken(id: number) {
         return new HTTPTransport().post(`${BASE_CHAT_API}/token/${id}`, {
-            headers: { 'content-type': 'application/json' },
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            data: {},
         });
     }
 
     getChatUsers(chatId: number) {
         return new HTTPTransport().get(`${BASE_CHAT_API}/${chatId}/users`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
             data: { id: chatId },
-            headers: { 'content-type': 'application/json' },
         });
     }
 
     create(title: string) {
         return new HTTPTransport().post(BASE_CHAT_API, {
-            data: { title },
-            headers: { 'content-type': 'application/json' },
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            data: {
+                title,
+            },
         });
     }
 
     addUsers(users: number[], chatId: number) {
         return new HTTPTransport().put(`${BASE_CHAT_API}/users`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
             data: { users, chatId },
-            headers: { 'content-type': 'application/json' },
         });
     }
 
     delete(chatId: number) {
         return new HTTPTransport().delete(BASE_CHAT_API, {
-            data: { chatId },
-            headers: { 'content-type': 'application/json' },
+            method: 'DELETE',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            data: {
+                chatId,
+            },
         });
     }
 
     deleteUser(chatId: number, users: number[]) {
         return new HTTPTransport()
             .delete(`${BASE_CHAT_API}/users`, {
-                data: { chatId, users },
-                headers: { 'content-type': 'application/json' },
+                method: 'DELETE',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                data: {
+                    users,
+                    chatId,
+                },
             })
             ?.then(() => this.getChatUsers(chatId));
     }

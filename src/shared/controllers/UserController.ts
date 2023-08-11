@@ -18,7 +18,7 @@ class UserController {
                 store.set('user', parseJson(data.response));
                 return data;
             })
-            .catch((e) => console.log(e.message));
+            .catch((e: any) => console.log(e.message));
     };
 
     changePassword = (data: any) => {

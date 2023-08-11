@@ -23,6 +23,9 @@ class ProfileLayout extends Block {
         const backButton = new BackButton({});
 
         const { user } = store.getState();
+
+		if (props) {}
+		
         if (!user) {
             AuthController.getUser()?.then((data: any) => {
                 store.set('user', data);

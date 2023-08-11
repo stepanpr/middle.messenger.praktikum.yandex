@@ -71,7 +71,7 @@ class Block {
             return;
         }
 
-        const { children, props } = this._getChildren(nextProps);
+        const { children } = this._getChildren(nextProps);
         Object.assign(this.children, children);
         Object.assign(this.props, nextProps);
     };
@@ -80,13 +80,13 @@ class Block {
         return this._element;
     }
 
-    componentDidMount(oldProps: Props) {}
+    componentDidMount(_oldProps: Props) {}
 
     dispatchComponentDidMount() {
         this.eventBus.emit(Events.FLOW_CDM);
     }
 
-    componentDidUpdate(oldProps: Props, newProps: Props) {
+    componentDidUpdate(_oldProps: Props, _newProps: Props) {
         return true;
     }
 

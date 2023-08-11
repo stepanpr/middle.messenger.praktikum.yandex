@@ -1,5 +1,5 @@
 interface Options {
-    method?: string;
+    method: string;
     data?: Record<string, any>;
     headers?: Record<string, any>;
     timeout?: number;
@@ -12,8 +12,6 @@ const enum Methods {
     DELETE = 'DELETE',
 }
 
-type HTTPMethod = (url: string, options?: Options) => Promise<unknown> | undefined;
-
 const queryStringify = (data: Record<string, any>): string => {
     if (typeof data !== 'object') {
         throw new Error('Data must be object');
@@ -24,26 +22,26 @@ const queryStringify = (data: Record<string, any>): string => {
 };
 
 class HTTPTransport {
-    get: HTTPMethod = (url, options = {}) => {
+    get = (url: string, options: Options) => {
         const { data } = options;
         if (data) `${url}${queryStringify(data)}`;
 
         return this.request(url, { ...options, method: Methods.GET }, options.timeout);
     };
 
-    put: HTTPMethod = (url, options = {}) => {
-        return this.request(url, { ...options, method: Methods.PUT }, options.timeout);
+    put = (url: string, options: Options) => {
+        return this.request(url, { ...options, method: Methods.PUT }, options?.timeout);
     };
 
-    post: HTTPMethod = (url, options = {}) => {
+    post = (url: string, options: Options) => {
         return this.request(url, { ...options, method: Methods.POST }, options.timeout);
     };
 
-    delete: HTTPMethod = (url, options = {}) => {
+    delete = (url: string, options: Options) => {
         return this.request(url, { ...options, method: Methods.DELETE }, options.timeout);
     };
 
-    request = (url: string, options: Options, timeout = 5000) => {
+    request = (url: string, options: Options = { method: Methods.GET }, timeout = 5000): any => {
         const { method, data, headers } = options;
         if (typeof url !== 'string') return;
         if (method === undefined) return;
@@ -54,8 +52,8 @@ class HTTPTransport {
             for (const headerName in headers) {
                 xhr.setRequestHeader(headerName, headers[headerName]);
             }
-
             xhr.withCredentials = true;
+
             xhr.onload = function () {
                 resolve(xhr);
             };
@@ -68,10 +66,12 @@ class HTTPTransport {
 
             if (method === Methods.GET || !data) {
                 xhr.send();
-            } else if (data instanceof FormData) {
-                xhr.send(data);
             } else {
-                xhr.send(JSON.stringify(data));
+                if (Object.prototype.toString.call(data) === '[object FormData]') {
+                    xhr.send(data as FormData);
+                } else {
+                    xhr.send(JSON.stringify(data));
+                }
             }
         });
     };
